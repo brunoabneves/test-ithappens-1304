@@ -11,7 +11,7 @@ package model;
  */
 public class ModelProduto {
     
-    private String idProduto;
+    private int idProduto;
     private String codBarras;
     private String descricao;
     private Double valor;
@@ -19,14 +19,14 @@ public class ModelProduto {
     /**
      * @return the idProduto
      */
-    public String getIdProduto() {
+    public int getIdProduto() {
         return idProduto;
     }
 
     /**
      * @param idProduto the idProduto to set
      */
-    public void setIdProduto(String idProduto) {
+    public void setIdProduto(int idProduto) {
         this.idProduto = idProduto;
     }
 

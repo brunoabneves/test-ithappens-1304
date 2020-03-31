@@ -57,6 +57,20 @@ public class ConexaoSQLite {
       return true;
   }
   
+  public boolean executarUpdateDeleteSQL(String pSQL){
+      try {      
+          //createStatement de con para criar o Statement
+          this.setStatement(getConexao().createStatement());
+          // Definido o Statement, executamos a query no banco de dados
+          getStatement().executeUpdate(pSQL);
+            
+      } catch (SQLException ex) {
+          ex.printStackTrace();
+          return false;
+      }
+      return true;
+  }
+  
     /**
      * Executa insert SQL
      * @param pSQL
