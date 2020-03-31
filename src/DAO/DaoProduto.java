@@ -6,6 +6,7 @@
 package DAO;
 
 import conexoes.ConexaoSQLite;
+import java.util.ArrayList;
 import model.ModelProduto;
 
 /**
@@ -78,4 +79,59 @@ public class DaoProduto extends ConexaoSQLite {
         }
     }
 
+    /**
+     * Retorna um produto pelo codigo
+     *
+     * @param idProduto
+     * @return modelProduto
+     */
+    public ModelProduto retornarProdutoDAO(int idProduto) {
+        ModelProduto modelProduto = new ModelProduto();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM produto WHERE idProduto = "
+                    + "'" + idProduto + "'");
+
+            while (this.getResultSet().next()) {
+                modelProduto.setIdProduto(this.getResultSet().getInt(1));
+                modelProduto.setCodBarras(this.getResultSet().getString(2));
+                modelProduto.setDescricao(this.getResultSet().getString(3));
+                modelProduto.setValor(this.getResultSet().getDouble(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelProduto;
+    }
+
+    
+    public ArrayList<ModelProduto> retornaListaProdutosDAO(){
+        ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
+        ModelProduto modelProduto = new ModelProduto();
+        
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM produto");
+            
+            while (this.getResultSet().next()) {
+                modelProduto.setIdProduto(this.getResultSet().getInt(1));
+                modelProduto.setCodBarras(this.getResultSet().getString(2));
+                modelProduto.setDescricao(this.getResultSet().getString(3));
+                modelProduto.setValor(this.getResultSet().getDouble(4));
+                
+                listaModelProduto.add(modelProduto);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            this.desconecta();
+        }
+        return listaModelProduto;
+    }
+    
+    
 }
