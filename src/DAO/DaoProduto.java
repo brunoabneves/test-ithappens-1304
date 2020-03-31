@@ -117,6 +117,8 @@ public class DaoProduto extends ConexaoSQLite {
             this.executarSQL("SELECT * FROM produto");
             
             while (this.getResultSet().next()) {
+                modelProduto = new ModelProduto();
+                
                 modelProduto.setIdProduto(this.getResultSet().getInt(1));
                 modelProduto.setCodBarras(this.getResultSet().getString(2));
                 modelProduto.setDescricao(this.getResultSet().getString(3));
