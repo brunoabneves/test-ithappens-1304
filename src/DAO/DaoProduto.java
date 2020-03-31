@@ -107,7 +107,10 @@ public class DaoProduto extends ConexaoSQLite {
         return modelProduto;
     }
 
-    
+    /**
+     * Retorna uma lista completa de produtos
+     * @return listaModelProduto
+     */
     public ArrayList<ModelProduto> retornaListaProdutosDAO(){
         ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
         ModelProduto modelProduto = new ModelProduto();
