@@ -19,10 +19,10 @@ public class ConexaoSQLite {
         
   public void conecta() throws Exception {
     Class.forName("org.sqlite.JDBC");
-        setConexao(DriverManager.getConnection("jdbc:sqlite:DataBase.db"));
+    setConexao(DriverManager.getConnection("jdbc:sqlite:/home/bruno/novo projeto/DataBase"));
     statement = getConexao().createStatement();
-        getConexao().setAutoCommit(false);
-        getConexao().setAutoCommit(true);
+    getConexao().setAutoCommit(false);
+    getConexao().setAutoCommit(true);
 
   }
   
@@ -86,7 +86,7 @@ public class ConexaoSQLite {
             this.getStatement().executeUpdate(pSQL);
             
             //consulta o ultimo id inserido
-            this.setResultSet(this.getStatement().executeQuery("SELECT last_insert_id();"));
+            this.setResultSet(this.getStatement().executeQuery("SELECT last_insert_id()"));
             
             //recupera o ultimo id inserido
             while(this.resultSet.next()){

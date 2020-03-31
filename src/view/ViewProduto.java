@@ -5,17 +5,27 @@
  */
 package view;
 
+import controller.ControllerProduto;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.ModelProduto;
+
 /**
  *
  * @author bruno
  */
 public class ViewProduto extends javax.swing.JFrame {
-
+    
+    ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
+    ControllerProduto controllerProduto = new ControllerProduto();
+    
     /**
      * Creates new form ViewProduto
      */
     public ViewProduto() {
         initComponents();
+        preencheTabelaProduto();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -36,7 +46,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         tfValor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TabelaProduto = new javax.swing.JTable();
         jbSalvar = new javax.swing.JButton();
         jbAlterar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
@@ -58,12 +68,9 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel4.setText("Valor:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "id serial", "Cod barras", "Descrição", "Valor"
@@ -84,7 +91,7 @@ public class ViewProduto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TabelaProduto);
 
         jbSalvar.setText("Salvar");
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -215,15 +222,36 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
     }
+    
+    /**
+     * Preenche a tabela de produtos com os produtos do banco
+     */
+    private void preencheTabelaProduto(){
+        listaModelProduto = controllerProduto.retornarListaProdutoController();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaProduto.getModel();
+        modelo.setNumRows(0);
+        
+        //inserir produtos na tabela
+        int count = listaModelProduto.size();
+        for (int i = 0; i < count; i++) {
+            modelo.addRow(new Object[]{
+            listaModelProduto.get(i).getIdProduto(),
+            listaModelProduto.get(i).getCodBarras(),
+            listaModelProduto.get(i).getDescricao(),
+            listaModelProduto.get(i).getValor()  
+            });
+        }
+                
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TabelaProduto;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbAlterar;
     private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbSalvar;
