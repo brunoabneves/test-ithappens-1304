@@ -24,7 +24,7 @@ public class DaoProduto extends ConexaoSQLite {
     public int cadastrarProdutoDAO(ModelProduto modelProduto) {
         try {
             this.conecta();
-            return this.insertSQL("INSERT INTO produto VALUES ("
+            return this.insertSQL("INSERT INTO produto (codBarras, descricao, valor) VALUES ("
                     + "'" + modelProduto.getCodBarras() + "',"
                     + "'" + modelProduto.getDescricao() + "',"
                     + "'" + modelProduto.getValor() + "')"

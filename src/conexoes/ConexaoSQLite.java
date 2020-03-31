@@ -86,7 +86,7 @@ public class ConexaoSQLite {
             this.getStatement().executeUpdate(pSQL);
             
             //consulta o ultimo id inserido
-            this.setResultSet(this.getStatement().executeQuery("SELECT last_insert_id()"));
+            this.setResultSet(this.getStatement().executeQuery("SELECT last_insert_rowid()"));
             
             //recupera o ultimo id inserido
             while(this.resultSet.next()){

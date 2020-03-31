@@ -7,6 +7,7 @@ package view;
 
 import controller.ControllerProduto;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelProduto;
 
@@ -18,6 +19,7 @@ public class ViewProduto extends javax.swing.JFrame {
     
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
     ControllerProduto controllerProduto = new ControllerProduto();
+    ModelProduto modelProduto = new ModelProduto();
     
     /**
      * Creates new form ViewProduto
@@ -42,7 +44,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfCodBarras = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jfDescricao = new javax.swing.JTextField();
+        tfDescricao = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         tfValor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -103,6 +105,11 @@ public class ViewProduto extends javax.swing.JFrame {
         jbAlterar.setText("Alterar");
 
         jbExcluir.setText("Excluir");
+        jbExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExcluirActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Pesquisar");
 
@@ -139,7 +146,7 @@ public class ViewProduto extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,7 +171,7 @@ public class ViewProduto extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,8 +192,35 @@ public class ViewProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_tfCodBarrasActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:
+        // Salva um novo produto no banco
+        modelProduto.setCodBarras(this.tfCodBarras.getText());
+        modelProduto.setDescricao(this.tfDescricao.getText());
+        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
+        
+        if(controllerProduto.salvarProdutoController(modelProduto) > 0){
+            
+            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!");
+            this.preencheTabelaProduto();
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!");
+        }
     }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
+        // Exclui um produto no banco:
+        int linha = TabelaProduto.getSelectedRow();
+        int codigoProduto = (int) TabelaProduto.getValueAt(linha, 0);
+        
+        if(controllerProduto.excluirProdutoController(codigoProduto)){
+            
+            JOptionPane.showMessageDialog(this, "Produto excluido com sucesso!");
+            this.preencheTabelaProduto();
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao excluir produto!");
+        }
+    }//GEN-LAST:event_jbExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,8 +289,8 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JButton jbAlterar;
     private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbSalvar;
-    private javax.swing.JTextField jfDescricao;
     private javax.swing.JTextField tfCodBarras;
+    private javax.swing.JTextField tfDescricao;
     private javax.swing.JTextField tfId;
     private javax.swing.JTextField tfValor;
     // End of variables declaration//GEN-END:variables
