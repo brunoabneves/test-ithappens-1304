@@ -28,6 +28,7 @@ public class ViewProduto extends javax.swing.JFrame {
         initComponents();
         preencheTabelaProduto();
         setLocationRelativeTo(null);
+        habilitaDesabilitaCampos(false);
     }
 
     /**
@@ -53,10 +54,14 @@ public class ViewProduto extends javax.swing.JFrame {
         jbAlterar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jbNovo = new javax.swing.JButton();
+        jbCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Id serial");
+
+        tfId.setEditable(false);
 
         jLabel2.setText("Código de Barras:");
 
@@ -113,6 +118,22 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jButton1.setText("Pesquisar");
 
+        jbNovo.setText("Novo");
+        jbNovo.setMaximumSize(new java.awt.Dimension(40, 20));
+        jbNovo.setMinimumSize(new java.awt.Dimension(40, 20));
+        jbNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNovoActionPerformed(evt);
+            }
+        });
+
+        jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,16 +154,20 @@ public class ViewProduto extends javax.swing.JFrame {
                                 .addComponent(tfCodBarras)
                                 .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbAlterar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jbExcluir)
-                        .addGap(154, 154, 154)
-                        .addComponent(jbSalvar)
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbAlterar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbExcluir)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbCancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addComponent(jbSalvar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,8 +205,10 @@ public class ViewProduto extends javax.swing.JFrame {
                     .addComponent(jbSalvar)
                     .addComponent(jbAlterar)
                     .addComponent(jbExcluir)
-                    .addComponent(jButton1))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(jButton1)
+                    .addComponent(jbNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbCancelar))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
@@ -199,11 +226,13 @@ public class ViewProduto extends javax.swing.JFrame {
         
         if(controllerProduto.salvarProdutoController(modelProduto) > 0){
             
-            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaProduto();
+            limparCampos();
+            habilitaDesabilitaCampos(false);
             
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!");
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
@@ -214,13 +243,26 @@ public class ViewProduto extends javax.swing.JFrame {
         
         if(controllerProduto.excluirProdutoController(codigoProduto)){
             
-            JOptionPane.showMessageDialog(this, "Produto excluido com sucesso!");
+            JOptionPane.showMessageDialog(this, "Produto excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaProduto();
+            habilitaDesabilitaCampos(false);
             
         }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir produto!");
+            JOptionPane.showMessageDialog(this, "Erro ao excluir produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbExcluirActionPerformed
+
+    private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
+        //
+        habilitaDesabilitaCampos(true);
+        limparCampos();
+    }//GEN-LAST:event_jbNovoActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        //
+        habilitaDesabilitaCampos(false);
+        limparCampos();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,6 +300,17 @@ public class ViewProduto extends javax.swing.JFrame {
     }
     
     /**
+     * Habilita e desabilita campos do formulário
+     * @param condicao 
+     */
+    private void habilitaDesabilitaCampos(boolean condicao){
+        tfId.setEnabled(condicao);
+        tfCodBarras.setEnabled(condicao);
+        tfDescricao.setEnabled(condicao);
+        tfValor.setEnabled(condicao);
+    }
+    
+    /**
      * Preenche a tabela de produtos com os produtos do banco
      */
     private void preencheTabelaProduto(){
@@ -277,6 +330,12 @@ public class ViewProduto extends javax.swing.JFrame {
         }
                 
     }
+    
+    private void limparCampos(){
+        tfCodBarras.setText("");
+        tfDescricao.setText("");
+        tfValor.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaProduto;
@@ -287,7 +346,9 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAlterar;
+    private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbExcluir;
+    private javax.swing.JButton jbNovo;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JTextField tfCodBarras;
     private javax.swing.JTextField tfDescricao;
