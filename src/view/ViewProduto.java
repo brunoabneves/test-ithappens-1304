@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelProduto;
+import util.Formatador;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ViewProduto extends javax.swing.JFrame {
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
     ControllerProduto controllerProduto = new ControllerProduto();
     ModelProduto modelProduto = new ModelProduto();
+    Formatador formatador = new Formatador();
     String alterarSalvar;
     
     /**
@@ -56,7 +58,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jbSalvar = new javax.swing.JButton();
         jbAlterar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jbPesquisar = new javax.swing.JButton();
         jbNovo = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -128,10 +130,10 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Pesquisar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbPesquisar.setText("Pesquisar");
+        jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbPesquisarActionPerformed(evt);
             }
         });
 
@@ -153,7 +155,7 @@ public class ViewProduto extends javax.swing.JFrame {
 
         jLabel5.setText("Pesquisar:");
 
-        tfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        tfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,7 +192,7 @@ public class ViewProduto extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(tfPesquisar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jbPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -230,7 +232,7 @@ public class ViewProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jbPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -310,7 +312,7 @@ public class ViewProduto extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_jbAlterarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
         // Busca um produto no banco
         DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
         final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
@@ -321,7 +323,7 @@ public class ViewProduto extends javax.swing.JFrame {
         String txt = tfPesquisar.getText();
         
         classificador.setRowFilter(RowFilter.regexFilter(txt, 2));
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,7 +364,7 @@ public class ViewProduto extends javax.swing.JFrame {
         // Salva um novo produto no banco
         modelProduto.setCodBarras(this.tfCodBarras.getText());
         modelProduto.setDescricao(this.tfDescricao.getText());
-        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
+        modelProduto.setValor(formatador.converteVirgulaParaPonto(this.tfValor.getText()));
         
         if(controllerProduto.salvarProdutoController(modelProduto) > 0){
             
@@ -380,7 +382,7 @@ public class ViewProduto extends javax.swing.JFrame {
         // Atualiza um produto no banco
         modelProduto.setCodBarras(this.tfCodBarras.getText());
         modelProduto.setDescricao(this.tfDescricao.getText());
-        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
+        modelProduto.setValor(formatador.converteVirgulaParaPonto(this.tfValor.getText()));
         
         if(controllerProduto.atualizarProdutoController(modelProduto)){
             
@@ -434,7 +436,6 @@ public class ViewProduto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaProduto;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -445,6 +446,7 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbNovo;
+    private javax.swing.JButton jbPesquisar;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JTextField tfCodBarras;
     private javax.swing.JTextField tfDescricao;

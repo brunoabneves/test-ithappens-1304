@@ -5,17 +5,31 @@
  */
 package view;
 
+import controller.ControllerCliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ModelCliente;
+
 /**
  *
  * @author bruno
  */
 public class ViewCliente extends javax.swing.JFrame {
+    
+    ArrayList<ModelCliente> listaModelCliente = new ArrayList<>();
+    ModelCliente modelCliente = new ModelCliente();
+    ControllerCliente controllerCliente = new ControllerCliente();
+    String alterarSalvar;
 
     /**
      * Creates new form ViewCliente
      */
     public ViewCliente() {
         initComponents();
+        preencheTabelaCliente();
+        setLocationRelativeTo(null);
+        habilitaDesabilitaCampos(false);
     }
 
     /**
@@ -32,10 +46,12 @@ public class ViewCliente extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableCliente = new javax.swing.JTable();
+        TabelaCliente = new javax.swing.JTable();
         jbSalvar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
         jbAlterar = new javax.swing.JButton();
+        jbNovo = new javax.swing.JButton();
+        jbCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,7 +66,7 @@ public class ViewCliente extends javax.swing.JFrame {
 
         jLabel2.setText("Nome:");
 
-        TableCliente.setModel(new javax.swing.table.DefaultTableModel(
+        TabelaCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -73,7 +89,7 @@ public class ViewCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(TableCliente);
+        jScrollPane1.setViewportView(TabelaCliente);
 
         jbSalvar.setText("Salvar");
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -83,8 +99,32 @@ public class ViewCliente extends javax.swing.JFrame {
         });
 
         jbExcluir.setText("Excluir");
+        jbExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExcluirActionPerformed(evt);
+            }
+        });
 
         jbAlterar.setText("Alterar");
+        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAlterarActionPerformed(evt);
+            }
+        });
+
+        jbNovo.setText("Novo");
+        jbNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNovoActionPerformed(evt);
+            }
+        });
+
+        jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,16 +142,18 @@ public class ViewCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNome))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(104, 104, 104)
-                                .addComponent(jbSalvar)
-                                .addGap(17, 17, 17)
-                                .addComponent(jbAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbExcluir)))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jbAlterar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbNovo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbSalvar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,12 +167,14 @@ public class ViewCliente extends javax.swing.JFrame {
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSalvar)
+                    .addComponent(jbAlterar)
                     .addComponent(jbExcluir)
-                    .addComponent(jbAlterar))
-                .addContainerGap(53, Short.MAX_VALUE))
+                    .addComponent(jbNovo)
+                    .addComponent(jbCancelar))
+                .addContainerGap())
         );
 
         pack();
@@ -141,8 +185,61 @@ public class ViewCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_tfCodigoActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:
+        
+        if(alterarSalvar.equals("salvar")){
+            this.salvarCliente();
+        }else if(alterarSalvar.equals("alterar")){
+            this.atualizarCliente();
+        }
     }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
+        // Exclui um cliente do banco
+        int linha = TabelaCliente.getSelectedRow();
+        int codigoCliente = (int) TabelaCliente.getValueAt(linha, 0);
+        
+        if(controllerCliente.excluirClienteController(codigoCliente)){
+            
+            JOptionPane.showMessageDialog(this, "Cliente excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaCliente();
+            habilitaDesabilitaCampos(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao excluir cliente!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbExcluirActionPerformed
+
+    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
+     
+        alterarSalvar = "alterar";
+        habilitaDesabilitaCampos(true);
+        int linha = this.TabelaCliente.getSelectedRow();
+        
+        try{
+            int idCliente = (int) this.TabelaCliente.getValueAt(linha, 0);
+            //recupera dados do banco
+            modelCliente = controllerCliente.RetornarClienteController(idCliente);
+            //seta na interface
+            this.tfCodigo.setText(String.valueOf(modelCliente.getIdCliente()));
+            this.tfNome.setText(modelCliente.getNome());
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbAlterarActionPerformed
+
+    private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
+        // 
+        habilitaDesabilitaCampos(true);
+        limparCampos();
+        alterarSalvar = "salvar";
+    }//GEN-LAST:event_jbNovoActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        // 
+        habilitaDesabilitaCampos(false);
+        limparCampos();
+    }//GEN-LAST:event_jbCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,14 +275,80 @@ public class ViewCliente extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void salvarCliente(){
+        // Salva um novo cliente no banco
+        modelCliente.setNome(this.tfNome.getText());
+        
+        if(controllerCliente.salvarClienteController(modelCliente) > 0){
+            
+            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaCliente();
+            limparCampos();
+            habilitaDesabilitaCampos(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o cliente!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void atualizarCliente(){
+        // Atualiza um novo cliente no banco
+        modelCliente.setNome(this.tfNome.getText());
+        
+        if(controllerCliente.atualizarClienteController(modelCliente)){
+            
+            JOptionPane.showMessageDialog(this, "Cliente atualizado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaCliente();
+            limparCampos();
+            habilitaDesabilitaCampos(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar o cliente!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+     /**
+     * Habilita e desabilita campos do formulário
+     * @param condicao 
+     */
+    private void habilitaDesabilitaCampos(boolean condicao){
+        tfCodigo.setEnabled(condicao);
+        tfNome.setEnabled(condicao);
+    }
+    
+    /**
+     * Preenche a tabela de clientes com os clientes do banco
+     */
+    private void preencheTabelaCliente(){
+        listaModelCliente = controllerCliente.retornarListaClienteController();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaCliente.getModel();
+        modelo.setNumRows(0);
+        
+        //inserir clientes na tabela
+        int count = listaModelCliente.size();
+        for (int i = 0; i < count; i++) {
+            modelo.addRow(new Object[]{
+            listaModelCliente.get(i).getIdCliente(),
+            listaModelCliente.get(i).getNome()
+            });
+        }
+                
+    }
+    
+    private void limparCampos(){
+        tfNome.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableCliente;
+    private javax.swing.JTable TabelaCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAlterar;
+    private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbExcluir;
+    private javax.swing.JButton jbNovo;
     private javax.swing.JButton jbSalvar;
     private javax.swing.JTextField tfCodigo;
     private javax.swing.JTextField tfNome;
