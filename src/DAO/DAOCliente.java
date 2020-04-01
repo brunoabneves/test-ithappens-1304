@@ -19,16 +19,16 @@ public class DAOCliente extends ConexaoSQLite {
     * @return int
     */
     /**
-     * Cadastrar um produto no banco
+     * Cadastrar um cliente no banco
      *
-     * @param modelProduto
+     * @param modelCliente 
      * @return
      */
-    public int cadastrarClienteDAO(ModelCliente modelProduto) {
+    public int cadastrarClienteDAO(ModelCliente modelCliente) {
         try {
             this.conecta();
             return this.insertSQL("INSERT INTO cliente (nome) VALUES ("
-                    + "'" + modelProduto.getNome()+ "')"
+                    + "'" + modelCliente.getNome()+ "')"
             );
         } catch (Exception e) {
             e.printStackTrace();
