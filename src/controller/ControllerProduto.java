@@ -40,8 +40,8 @@ public class ControllerProduto {
      * @param modelProduto
      * @return 
      */
-    public boolean alterarProdutoController(ModelProduto modelProduto){
-        return this.daoProduto.alterarProdutoDAO(modelProduto);
+    public boolean atualizarProdutoController(ModelProduto modelProduto){
+        return this.daoProduto.atualizarProdutoDAO(modelProduto);
     }
     
     /**

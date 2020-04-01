@@ -62,10 +62,10 @@ public class DaoProduto extends ConexaoSQLite {
      * @param modelProduto
      * @return bool
      */
-    public boolean alterarProdutoDAO(ModelProduto modelProduto) {
+    public boolean atualizarProdutoDAO(ModelProduto modelProduto) {
         try {
             this.conecta();
-            return this.executarUpdateDeleteSQL("UPDATE produto SET"
+            return this.executarUpdateDeleteSQL("UPDATE produto SET "
                     + "codBarras = '" + modelProduto.getCodBarras() + "',"
                     + "descricao = '" + modelProduto.getDescricao() + "',"
                     + "valor = '" + modelProduto.getValor() + "'"

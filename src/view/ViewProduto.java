@@ -20,6 +20,7 @@ public class ViewProduto extends javax.swing.JFrame {
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
     ControllerProduto controllerProduto = new ControllerProduto();
     ModelProduto modelProduto = new ModelProduto();
+    String alterarSalvar;
     
     /**
      * Creates new form ViewProduto
@@ -108,6 +109,11 @@ public class ViewProduto extends javax.swing.JFrame {
         });
 
         jbAlterar.setText("Alterar");
+        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAlterarActionPerformed(evt);
+            }
+        });
 
         jbExcluir.setText("Excluir");
         jbExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -219,21 +225,13 @@ public class ViewProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_tfCodBarrasActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // Salva um novo produto no banco
-        modelProduto.setCodBarras(this.tfCodBarras.getText());
-        modelProduto.setDescricao(this.tfDescricao.getText());
-        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
         
-        if(controllerProduto.salvarProdutoController(modelProduto) > 0){
-            
-            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencheTabelaProduto();
-            limparCampos();
-            habilitaDesabilitaCampos(false);
-            
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        if(alterarSalvar.equals("salvar")){
+            this.salvarProduto();
+        }else if(alterarSalvar.equals("alterar")){
+            this.atualizarProduto();
         }
+        
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
@@ -256,6 +254,7 @@ public class ViewProduto extends javax.swing.JFrame {
         //
         habilitaDesabilitaCampos(true);
         limparCampos();
+        alterarSalvar = "salvar";
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -263,6 +262,27 @@ public class ViewProduto extends javax.swing.JFrame {
         habilitaDesabilitaCampos(false);
         limparCampos();
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
+        //
+        alterarSalvar = "alterar";
+        habilitaDesabilitaCampos(true);
+        int linha = this.TabelaProduto.getSelectedRow();
+        
+        try{
+            int idProduto = (int) this.TabelaProduto.getValueAt(linha, 0);
+            //recupera dados do banco
+            modelProduto = controllerProduto.retornarProdutoController(idProduto);
+            //seta na interface
+            this.tfId.setText(String.valueOf(modelProduto.getIdProduto()));
+            this.tfCodBarras.setText(modelProduto.getCodBarras());
+            this.tfDescricao.setText(modelProduto.getDescricao());
+            this.tfValor.setText(String.valueOf(modelProduto.getValor()));
+            
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        } 
+    }//GEN-LAST:event_jbAlterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,6 +317,42 @@ public class ViewProduto extends javax.swing.JFrame {
                 new ViewProduto().setVisible(true);
             }
         });
+    }
+    
+    private void salvarProduto(){
+        // Salva um novo produto no banco
+        modelProduto.setCodBarras(this.tfCodBarras.getText());
+        modelProduto.setDescricao(this.tfDescricao.getText());
+        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
+        
+        if(controllerProduto.salvarProdutoController(modelProduto) > 0){
+            
+            JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaProduto();
+            limparCampos();
+            habilitaDesabilitaCampos(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao cadastrar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void atualizarProduto(){
+        // Atualiza um produto no banco
+        modelProduto.setCodBarras(this.tfCodBarras.getText());
+        modelProduto.setDescricao(this.tfDescricao.getText());
+        modelProduto.setValor(Double.parseDouble(this.tfValor.getText()));
+        
+        if(controllerProduto.atualizarProdutoController(modelProduto)){
+            
+            JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaProduto();
+            limparCampos();
+            habilitaDesabilitaCampos(false);
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     /**
