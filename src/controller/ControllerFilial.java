@@ -29,6 +29,15 @@ public class ControllerFilial {
     public ModelFilial getFilialController(int pIdFilial){
         return this.daoFilial.retornarFilialDAO(pIdFilial);
     }
+    
+      /**
+    * recupera Filial
+    * @param pNomeFilial
+    * @return ModelFilial
+    */
+    public ModelFilial getFilialController(String pNomeFilial){
+        return this.daoFilial.retornarFilialDAO(pNomeFilial);
+    }
 
     /**
     * recupera uma lista de Filial

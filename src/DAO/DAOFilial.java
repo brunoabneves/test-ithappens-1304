@@ -59,6 +59,32 @@ public class DAOFilial extends ConexaoSQLite {
         }
         return modelFilial;
     }
+    
+     /**
+     * Retorna uma filial pelo codigo
+     *
+     * @param pNomeFilial
+     * @return modelFilial
+     */
+    public ModelFilial retornarFilialDAO(String pNomeFilial) {
+        ModelFilial modelFilial = new ModelFilial();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM filial WHERE nome = "
+                    + "'" + pNomeFilial + "'");
+
+            while (this.getResultSet().next()) {
+                modelFilial.setIdFilial(this.getResultSet().getInt(1));
+                modelFilial.setNome(this.getResultSet().getString(2));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelFilial;
+    }
 
     /**
      * Retorna uma lista completa de filials

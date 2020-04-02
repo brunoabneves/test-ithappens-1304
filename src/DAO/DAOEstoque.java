@@ -28,7 +28,7 @@ public class DAOEstoque extends ConexaoSQLite {
         try {
             this.conecta();
             return this.insertSQL("INSERT INTO estoque (quantidade, idProduto, idFilial) VALUES ("
-                    + "'" + modelEstoque.getQuantidade()+ "',"
+                    + "'" +modelEstoque.getQuantidade()+ "',"
                     + "'" +modelEstoque.getIdProduto()+"',"
                     + "'" +modelEstoque.getIdFilial()+"')"
             );

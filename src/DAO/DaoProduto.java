@@ -106,6 +106,34 @@ public class DaoProduto extends ConexaoSQLite {
         }
         return modelProduto;
     }
+    
+    /**
+     * Retorna um produto pelo codigo
+     *
+     * @param pDescProduto
+     * @return modelProduto
+     */
+    public ModelProduto retornarProdutoDAO(String pDescProduto) {
+        ModelProduto modelProduto = new ModelProduto();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM produto WHERE descricao = "
+                    + "'" + pDescProduto + "'");
+
+            while (this.getResultSet().next()) {
+                modelProduto.setIdProduto(this.getResultSet().getInt(1));
+                modelProduto.setCodBarras(this.getResultSet().getString(2));
+                modelProduto.setDescricao(this.getResultSet().getString(3));
+                modelProduto.setValor(this.getResultSet().getDouble(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelProduto;
+    }
 
     /**
      * Retorna uma lista completa de produtos
