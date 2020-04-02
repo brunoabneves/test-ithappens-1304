@@ -12,12 +12,7 @@ import model.ModelEstoque;
 * @author bruno
 */
 public class DAOEstoque extends ConexaoSQLite {
-
-    /**
-    * grava Estoque
-    * @param pModelEstoque
-    * @return int
-    */
+   
     /**
      * Cadastrar um estoque no banco
      *

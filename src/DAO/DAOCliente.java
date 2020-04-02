@@ -63,6 +63,32 @@ public class DAOCliente extends ConexaoSQLite {
         }
         return modelCliente;
     }
+    
+     /**
+     * Retorna um cliente pelo codigo
+     *
+     * @param pNomeCliente
+     * @return modelCliente
+     */
+    public ModelCliente retornarClienteDAO(String pNomeCliente) {
+        ModelCliente modelCliente = new ModelCliente();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM cliente WHERE nome = "
+                    + "'" + pNomeCliente + "'");
+
+            while (this.getResultSet().next()) {
+                modelCliente.setIdCliente(this.getResultSet().getInt(1));
+                modelCliente.setNome(this.getResultSet().getString(2));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelCliente;
+    }
 
     /**
      * Retorna uma lista completa de clientes

@@ -219,7 +219,7 @@ public class ViewCliente extends javax.swing.JFrame {
         try{
             int idCliente = (int) this.TabelaCliente.getValueAt(linha, 0);
             //recupera dados do banco
-            modelCliente = controllerCliente.RetornarClienteController(idCliente);
+            modelCliente = controllerCliente.retornarClienteController(idCliente);
             //seta na interface
             this.tfCodigo.setText(String.valueOf(modelCliente.getIdCliente()));
             this.tfNome.setText(modelCliente.getNome());

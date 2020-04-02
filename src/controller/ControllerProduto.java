@@ -19,11 +19,11 @@ public class ControllerProduto {
     
     /**
      * Salvar produto controller
-     * @param moodelProduto
+     * @param modelProduto
      * @return 
      */
-    public int salvarProdutoController(ModelProduto moodelProduto){
-         return this.daoProduto.cadastrarProdutoDAO(moodelProduto);
+    public int salvarProdutoController(ModelProduto modelProduto){
+         return this.daoProduto.cadastrarProdutoDAO(modelProduto);
     }
     
     /**

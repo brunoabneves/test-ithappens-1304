@@ -6,16 +6,13 @@
 package view;
 
 import controller.ControllerEstoque;
-import controller.ControllerEstoqueFilial;
 import controller.ControllerEstoqueProduto;
 import controller.ControllerFilial;
 import controller.ControllerProduto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.ModelCliente;
 import model.ModelEstoque;
-import model.ModelEstoqueFilial;
 import model.ModelEstoqueProduto;
 import model.ModelFilial;
 import model.ModelProduto;
@@ -27,13 +24,8 @@ import model.ModelProduto;
 public class ViewEstoque extends javax.swing.JFrame {
     
     ControllerEstoqueProduto controllerEstoqueProduto = new ControllerEstoqueProduto();
-    ModelEstoqueProduto modelEstoqueProduto = new ModelEstoqueProduto();
     ArrayList<ModelEstoqueProduto> listaModelEstoqueProduto = new ArrayList<>();
-    
-    ControllerEstoqueFilial controllerEstoqueFilial = new ControllerEstoqueFilial();
-    ModelEstoqueFilial modelEstoqueFilial = new ModelEstoqueFilial();
-    ArrayList<ModelEstoqueFilial> listaModelEstoqueFilial = new ArrayList<>();
-    
+        
     ControllerEstoque controllerEstoque = new ControllerEstoque();
     ModelEstoque modelEstoque = new ModelEstoque();
     
@@ -158,6 +150,11 @@ public class ViewEstoque extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TabelaEstoque);
 
         jbAlterar.setText("Alterar");
+        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAlterarActionPerformed(evt);
+            }
+        });
 
         jbExcluir.setText("Excluir");
         jbExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -328,6 +325,10 @@ public class ViewEstoque extends javax.swing.JFrame {
         cbProduto.setSelectedItem(modelProduto.getDescricao());
     }//GEN-LAST:event_tfCodProdutoFocusLost
 
+    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbAlterarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -392,7 +393,6 @@ public class ViewEstoque extends javax.swing.JFrame {
         
         DefaultTableModel modelo = (DefaultTableModel) TabelaEstoque.getModel();
         listaModelEstoqueProduto = controllerEstoqueProduto.getListaEstoqueProdutoController();
-        listaModelEstoqueFilial = controllerEstoqueFilial.getListaEstoqueFilialController();
         modelo.setNumRows(0);
         
         int cont = listaModelEstoqueProduto.size();

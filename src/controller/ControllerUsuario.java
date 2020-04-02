@@ -3,6 +3,7 @@ package controller;
 import model.ModelUsuario;
 import DAO.DAOUsuario;
 import java.util.ArrayList;
+import model.ModelFilial;
 
 /**
 *
@@ -28,6 +29,15 @@ public class ControllerUsuario {
     */
     public ModelUsuario getUsuarioController(int pIdUsuario){
         return this.daoUsuario.retornarUsuarioDAO(pIdUsuario);
+    }
+    
+      /**
+    * recupera Usuário
+    * @param pNomeUsuario
+    * @return ModelFilial
+    */
+    public ModelUsuario getUsuarioController(String pNomeUsuario){
+        return this.daoUsuario.retornarUsuarioDAO(pNomeUsuario);
     }
 
     /**

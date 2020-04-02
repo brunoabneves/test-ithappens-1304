@@ -63,6 +63,32 @@ public class DAOUsuario extends ConexaoSQLite {
         }
         return modelUsuario;
     }
+    
+    /**
+     * Retorna um usuario pelo nome
+     *
+     * @param idUsuario
+     * @return modelUsuario
+     */
+    public ModelUsuario retornarUsuarioDAO(String pNomeUsuario) {
+        ModelUsuario modelUsuario = new ModelUsuario();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM usuario WHERE nome = "
+                    + "'" + pNomeUsuario + "'");
+
+            while (this.getResultSet().next()) {
+                modelUsuario.setIdUsuario(this.getResultSet().getInt(1));
+                modelUsuario.setNome(this.getResultSet().getString(2));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelUsuario;
+    }
 
     /**
      * Retorna uma lista completa de usuarios
