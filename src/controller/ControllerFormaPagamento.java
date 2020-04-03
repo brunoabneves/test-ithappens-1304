@@ -56,4 +56,8 @@ public class ControllerFormaPagamento {
     public boolean excluirFormaPagamentoController(int pIdFormaPagamento){
         return this.daoFormaPagamento.excluirFormaPagamentoDAO(pIdFormaPagamento);
     }
+
+    public ModelFormaPagamento getFormaPagamentoPorTipoController(String tipo) {
+        return this.daoFormaPagamento.getFormaPagamentoPorTipoController(tipo); 
+    }
 }

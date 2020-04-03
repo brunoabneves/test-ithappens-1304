@@ -3,6 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerFormaPagamento.java</file>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelFormaPagamento.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerProduto.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOItemPedido.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOEstoqueFilial.java</file>
@@ -11,8 +13,10 @@
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/view/ViewCliente.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelEstoqueProduto.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DaoProduto.java</file>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerEstoqueProduto.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOFilial.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelPedidoEstoque.java</file>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerEstoqueFilial.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/view/ViewPedidoEstoque.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelEstoque.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOCliente.java</file>
@@ -22,6 +26,7 @@
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/view/ViewProduto.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelItemPedido.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerFilial.java</file>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/view/ViewMain.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerItemPedido.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerUsuario.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOPedidoEstoque.java</file>
@@ -30,6 +35,7 @@
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/controller/ControllerEstoque.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOUsuario.java</file>
             <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/model/ModelProduto.java</file>
+            <file>file:/home/bruno/NetBeansProjects/ProvaEstoque/src/DAO/DAOFormaPagamento.java</file>
         </group>
     </open-files>
 </project-private>

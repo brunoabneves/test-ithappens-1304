@@ -1,11 +1,7 @@
 package DAO;
 
-import model.ModelFormaPagamento;
 import conexoes.ConexaoSQLite;
 import java.util.ArrayList;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import model.ModelFormaPagamento;
 /**
 *
@@ -157,6 +153,26 @@ public class DAOFormaPagamento extends ConexaoSQLite {
         } finally {
             this.desconecta();
         }
+    }
+
+    public ModelFormaPagamento getFormaPagamentoPorTipoController(String tipo) {
+        ModelFormaPagamento modelFormaPagamento = new ModelFormaPagamento();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM formaPagamento WHERE tipoPagamento = "
+                    + "'" + tipo + "'");
+
+            while (this.getResultSet().next()) {
+                modelFormaPagamento.setIdFormaPagamento(this.getResultSet().getInt(1));
+                modelFormaPagamento.setTipoPagamento(this.getResultSet().getString(2));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelFormaPagamento;
     }
 
 }

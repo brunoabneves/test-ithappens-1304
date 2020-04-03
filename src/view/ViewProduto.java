@@ -424,8 +424,7 @@ public class ViewProduto extends javax.swing.JFrame {
             listaModelProduto.get(i).getDescricao(),
             listaModelProduto.get(i).getValor()  
             });
-        }
-                
+        }               
     }
     
     private void limparCampos(){

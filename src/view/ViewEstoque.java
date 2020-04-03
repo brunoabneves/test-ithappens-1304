@@ -22,17 +22,17 @@ import model.ModelProduto;
  * @author bruno
  */
 public class ViewEstoque extends javax.swing.JFrame {
-    
+
     ControllerEstoqueProduto controllerEstoqueProduto = new ControllerEstoqueProduto();
     ArrayList<ModelEstoqueProduto> listaModelEstoqueProduto = new ArrayList<>();
-        
+
     ControllerEstoque controllerEstoque = new ControllerEstoque();
     ModelEstoque modelEstoque = new ModelEstoque();
-    
+
     ControllerFilial controllerFilial = new ControllerFilial();
     ModelFilial modelFilial = new ModelFilial();
     ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
-    
+
     ControllerProduto controllerProduto = new ControllerProduto();
     ModelProduto modelProduto = new ModelProduto();
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
@@ -46,6 +46,8 @@ public class ViewEstoque extends javax.swing.JFrame {
         preencherComboBoxProduto();
         preencherTabelaEstoque();
         preencherComboBoxProduto();
+        setLocationRelativeTo(null);
+
     }
 
     /**
@@ -75,7 +77,7 @@ public class ViewEstoque extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         tfCodProduto = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Código Filial:");
 
@@ -111,6 +113,11 @@ public class ViewEstoque extends javax.swing.JFrame {
                 cbProdutoPopupMenuWillBecomeInvisible(evt);
             }
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        cbProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbProdutoActionPerformed(evt);
             }
         });
 
@@ -272,40 +279,40 @@ public class ViewEstoque extends javax.swing.JFrame {
         modelEstoque.setQuantidade(Integer.parseInt(tfQuantidade.getText()));
         modelEstoque.setIdProduto(Integer.parseInt(tfCodProduto.getText()));
         modelEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
-        
-        if(controllerEstoque.salvarEstoqueController(modelEstoque) > 0){
-            
+
+        if (controllerEstoque.salvarEstoqueController(modelEstoque) > 0) {
+
             JOptionPane.showMessageDialog(this, "Estoque adicionado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencherTabelaEstoque();
-            
-        }else {
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao adicionar estoque!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
-       
+
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um estoque do banco
         int linha = TabelaEstoque.getSelectedRow();
         int codigo = (int) TabelaEstoque.getValueAt(linha, 0);
-        if(controllerEstoque.excluirEstoqueController(codigo)){
-            
-             JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-             this.preencherTabelaEstoque();
-             
-        }else{
+        if (controllerEstoque.excluirEstoqueController(codigo)) {
+
+            JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaEstoque();
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao excluir estoque", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void tfCodFilialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCodFilialFocusLost
         // TODO add your handling code here:
- 
+
     }//GEN-LAST:event_tfCodFilialFocusLost
 
     private void cbFilialPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbFilialPopupMenuWillBecomeInvisible
         // TODO add your handling code here:
-        if(cbFilial.isPopupVisible()){
+        if (cbFilial.isPopupVisible()) {
             modelFilial = controllerFilial.getFilialController(cbFilial.getSelectedItem().toString());
             tfCodFilial.setText(String.valueOf(modelFilial.getIdFilial()));
         }
@@ -313,7 +320,7 @@ public class ViewEstoque extends javax.swing.JFrame {
 
     private void cbProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbProdutoPopupMenuWillBecomeInvisible
         // TODO add your handling code here:
-        if(cbProduto.isVisible()){
+        if (cbProduto.isVisible()) {
             modelProduto = controllerProduto.retornarProdutoController(cbProduto.getSelectedItem().toString());
             tfCodProduto.setText(String.valueOf(modelProduto.getIdProduto()));
         }
@@ -328,6 +335,10 @@ public class ViewEstoque extends javax.swing.JFrame {
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbAlterarActionPerformed
+
+    private void cbProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbProdutoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,50 +374,50 @@ public class ViewEstoque extends javax.swing.JFrame {
             }
         });
     }
-    
+
     /**
      * Preenche o comboBox com todas as filiais do banco
      */
-    private void preencherComboBoxFilial(){
+    private void preencherComboBoxFilial() {
         listaModelFilial = controllerFilial.getListaFilialController();
         cbFilial.removeAllItems();
         for (int i = 0; i < listaModelFilial.size(); i++) {
             cbFilial.addItem(listaModelFilial.get(i).getNome());
         }
     }
-    
-     /**
+
+    /**
      * Preenche o comboBox com todas os produtos do banco
      */
-    private void preencherComboBoxProduto(){
+    private void preencherComboBoxProduto() {
         listaModelProduto = controllerProduto.retornarListaProdutoController();
         cbProduto.removeAllItems();
         for (int i = 0; i < listaModelProduto.size(); i++) {
             cbProduto.addItem(listaModelProduto.get(i).getDescricao());
         }
     }
-    
+
     /**
      * Preenche a tabela com estoques do banco
      */
-    private void preencherTabelaEstoque(){
-        
+    private void preencherTabelaEstoque() {
+
         DefaultTableModel modelo = (DefaultTableModel) TabelaEstoque.getModel();
         listaModelEstoqueProduto = controllerEstoqueProduto.getListaEstoqueProdutoController();
         modelo.setNumRows(0);
-        
+
         int cont = listaModelEstoqueProduto.size();
         for (int i = 0; i < cont; i++) {
             modelo.addRow(new Object[]{
-            listaModelEstoqueProduto.get(i).getModelEstoque().getIdEstoque(),
-            listaModelEstoqueProduto.get(i).getModelEstoque().getIdFilial(),
-            listaModelEstoqueProduto.get(i).getModelEstoque().getIdProduto(),
-            listaModelEstoqueProduto.get(i).getModelEstoque().getQuantidade()
+                listaModelEstoqueProduto.get(i).getModelEstoque().getIdEstoque(),
+                listaModelEstoqueProduto.get(i).getModelEstoque().getIdFilial(),
+                listaModelEstoqueProduto.get(i).getModelEstoque().getIdProduto(),
+                listaModelEstoqueProduto.get(i).getModelEstoque().getQuantidade()
             });
         }
-        
+
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaEstoque;

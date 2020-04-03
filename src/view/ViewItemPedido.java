@@ -7,6 +7,7 @@ package view;
 
 import controller.ControllerEstoque;
 import controller.ControllerFilial;
+import controller.ControllerFormaPagamento;
 import controller.ControllerItemPedido;
 import controller.ControllerProduto;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelEstoque;
+import model.ModelFormaPagamento;
 import model.ModelItemPedido;
 import model.ModelProduto;
 
@@ -24,25 +26,30 @@ import model.ModelProduto;
  * @author bruno
  */
 public class ViewItemPedido extends javax.swing.JFrame {
-    
+
     ModelProduto modelProduto = new ModelProduto();
     ModelItemPedido modelItemPedido = new ModelItemPedido();
     ModelEstoque modelEstoque = new ModelEstoque();
-    
+
     ControllerEstoque controllerEstoque = new ControllerEstoque();
     ControllerFilial controllerFilial = new ControllerFilial();
-    ControllerItemPedido controllerItemPedido = new ControllerItemPedido();  
+    ControllerItemPedido controllerItemPedido = new ControllerItemPedido();
     ControllerProduto controllerProduto = new ControllerProduto();
-    
+    ControllerFormaPagamento controllerFormaPagamento = new ControllerFormaPagamento();
+
     ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
     ArrayList<ModelEstoque> listaModelEstoque = new ArrayList<>();
+    ArrayList<ModelFormaPagamento> listaModelFormaPagamento = new ArrayList<>();
+
     /**
      * Creates new form ViewItemPedido
      */
     public ViewItemPedido() {
         initComponents();
+        setLocationRelativeTo(null);
         preencheTabelaProdutos();
+        preencherComboBoxFormaPagamento();
     }
 
     /**
@@ -78,6 +85,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
         jbCancelar = new javax.swing.JButton();
         jbAdicionar = new javax.swing.JButton();
         cbFormaPagamento = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,7 +113,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Id:");
 
@@ -216,6 +224,8 @@ public class ViewItemPedido extends javax.swing.JFrame {
 
         cbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel5.setText("Forma de pagamento:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,6 +271,8 @@ public class ViewItemPedido extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbAdicionar))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -295,7 +307,9 @@ public class ViewItemPedido extends javax.swing.JFrame {
                         .addComponent(jbAdicionar)))
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbRemover)
@@ -313,11 +327,11 @@ public class ViewItemPedido extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
         final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
         this.TabelaProduto.setRowSorter(classificador);
-        
+
         //String txtId = tfId.getText();
         //String txtCodBarras = tfCodBarras.getText();
         String txt = tfCodProduto.getText();
-        
+
         classificador.setRowFilter(RowFilter.regexFilter(txt, 0));
     }//GEN-LAST:event_jbBuscaPorIdActionPerformed
 
@@ -326,11 +340,11 @@ public class ViewItemPedido extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
         final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
         this.TabelaProduto.setRowSorter(classificador);
-        
+
         //String txtId = tfId.getText();
         //String txtCodBarras = tfCodBarras.getText();
         String txt = tfCodBarrasProd.getText();
-        
+
         classificador.setRowFilter(RowFilter.regexFilter(txt, 1));
     }//GEN-LAST:event_jbBuscaPorCodBarraActionPerformed
 
@@ -339,17 +353,18 @@ public class ViewItemPedido extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
         final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
         this.TabelaProduto.setRowSorter(classificador);
-        
+
         //String txtId = tfId.getText();
         //String txtCodBarras = tfCodBarras.getText();
         String txt = tfDescricao.getText();
-        
+
         classificador.setRowFilter(RowFilter.regexFilter(txt, 2));
     }//GEN-LAST:event_jbBuscaPorDescricaoActionPerformed
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
         limparCampos();
+        modelItemPedido.setStatus("Cancelado");
     }//GEN-LAST:event_jbRemoverActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -358,61 +373,88 @@ public class ViewItemPedido extends javax.swing.JFrame {
 
     private void jbAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarActionPerformed
         /**
-        * Preenche a tabela de itemPedido com os produtos do banco
-        */
-        
+         * Preenche a tabela de itemPedido com os produtos do banco
+         */
+
         int linha = this.TabelaProduto.getSelectedRow();
-        
-        try{
+        int idProdutoaux = 0;
+        int idEstoque = 0;
+        int quantidade = 0;
+
+        try {
             int idProduto = (int) this.TabelaProduto.getValueAt(linha, 0);
             modelProduto = controllerProduto.retornarProdutoController(idProduto);
 
-            modelItemPedido.setIdProduto(modelProduto.getIdProduto()) ;
+            modelItemPedido.setIdProduto(modelProduto.getIdProduto());
             modelItemPedido.setStatus("Ativo");
             modelItemPedido.setQuantidade(Integer.parseInt(this.tfQuantidade.getText()));
             modelItemPedido.setValorUnitario(modelProduto.getValor());
             modelItemPedido.setValorTotal(modelProduto.getValor() * Integer.parseInt(tfQuantidade.getText()));
-            
+
             preencheTabelaItemProdutos();
-            
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar produto no pedido!", "Aviso", JOptionPane.ERROR_MESSAGE);
-        }                
+
+            int tamTabela = TabelaItemPedido.getRowCount();
+
+            for (int i = 0; i < tamTabela; i++) {
+
+                idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+                modelEstoque.setIdEstoque(idEstoque);
+                quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
+
+                if (modelItemPedido.getIdProduto() == idProdutoaux) {
+                    limparLinhaTabela(i);
+                    JOptionPane.showMessageDialog(this, "Produto já foi adicionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+                }
+
+                idProdutoaux = (int) TabelaItemPedido.getValueAt(i, 0);
+            }
+
+            if (quantidade >= 0) {
+                modelEstoque.setQuantidade(quantidade);
+            } else {
+                limparLinhaTabela(0);
+                JOptionPane.showMessageDialog(this, "Produtos insuficientes esta quantidade", "Aviso", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.getMessage();
+            JOptionPane.showMessageDialog(this, e, "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbAdicionarActionPerformed
 
     private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
         // TODO add your handling code here:
         int idProduto = 0;
         int idEstoque = 0;
+        int quantidade = 0;
 
         listaModelItemPedido = new ArrayList<>();
-        
+
         int tamTabela = TabelaItemPedido.getRowCount();
         for (int i = 0; i < tamTabela; i++) {
-            
+
             idProduto = (int) TabelaItemPedido.getValueAt(i, 0);
             modelItemPedido = new ModelItemPedido();
             modelEstoque = new ModelEstoque();
             modelItemPedido.setIdProduto(idProduto);
-            modelItemPedido.setStatus("Ativo");
+            modelItemPedido.setStatus("Processado");
             modelItemPedido.setQuantidade((int) TabelaItemPedido.getValueAt(i, 2));
             modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
-            
-            idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
-            modelEstoque.setIdEstoque(idEstoque);
-            modelEstoque.setQuantidade(controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString()));
-            
+            modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
+
             listaModelItemPedido.add(modelItemPedido);
             listaModelEstoque.add(modelEstoque);
         }
-        
+
         //Salva os produtos da venda
-        if(controllerItemPedido.salvarItemPedidoController(listaModelItemPedido) ){
+        if (controllerItemPedido.salvarItemPedidoController(listaModelItemPedido)) {
             controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
             JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-            limparCampos();
-        } 
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jbFinalizarVendaActionPerformed
 
     /**
@@ -449,51 +491,70 @@ public class ViewItemPedido extends javax.swing.JFrame {
             }
         });
     }
-    
-     /**
+
+    /**
      * Preenche a tabela de produtos com os produtos do banco
      */
-    private void preencheTabelaProdutos(){
+    private void preencheTabelaProdutos() {
         listaModelProduto = controllerProduto.retornarListaProdutoController();
         DefaultTableModel modelo = (DefaultTableModel) TabelaProduto.getModel();
         modelo.setNumRows(0);
-        
+
         //inserir produtos na tabela
         int count = listaModelProduto.size();
         for (int i = 0; i < count; i++) {
             modelo.addRow(new Object[]{
-            listaModelProduto.get(i).getIdProduto(),
-            listaModelProduto.get(i).getCodBarras(),
-            listaModelProduto.get(i).getDescricao(),
-            listaModelProduto.get(i).getValor()
+                listaModelProduto.get(i).getIdProduto(),
+                listaModelProduto.get(i).getCodBarras(),
+                listaModelProduto.get(i).getDescricao(),
+                listaModelProduto.get(i).getValor()
             });
-        }               
+        }
     }
-    
-    private void preencheTabelaItemProdutos(){
+
+    private void preencheTabelaItemProdutos() {
         DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
         int count = 0;
         for (int i = 0; i < count; i++) {
             modelo.setNumRows(0);
         }
-            
+
         modelo.addRow(new Object[]{
             modelItemPedido.getIdProduto(),
             modelItemPedido.getStatus(),
             modelItemPedido.getQuantidade(),
             modelItemPedido.getValorUnitario(),
             modelItemPedido.getValorTotal()
-        }); 
+        });
     }
-    
-    private void limparCampos(){
+
+    private void limparCampos() {
         int linha = this.TabelaItemPedido.getSelectedRow();
         DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
-        
+
         modelo.removeRow(linha);
-        
+
     }
-   
+
+    private void limparLinhaTabela(int linha) {
+        //int linha = this.TabelaItemPedido.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
+
+        modelo.removeRow(linha);
+
+    }
+
+    /**
+     * Preenche o comboBox com todas os produtos do banco
+     */
+    private void preencherComboBoxFormaPagamento() {
+        listaModelFormaPagamento = controllerFormaPagamento.getListaFormaPagamentoController();
+        cbFormaPagamento.removeAllItems();
+        for (int i = 0; i < listaModelFormaPagamento.size(); i++) {
+            cbFormaPagamento.addItem(listaModelFormaPagamento.get(i).getTipoPagamento());
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaItemPedido;
@@ -503,6 +564,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
