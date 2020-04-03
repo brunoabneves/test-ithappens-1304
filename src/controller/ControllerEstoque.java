@@ -29,6 +29,15 @@ public class ControllerEstoque {
     public ModelEstoque getEstoqueController(int pIdEstoque){
         return this.daoEstoque.retornarEstoqueDAO(pIdEstoque);
     }
+    
+    /**
+    * recupera Estoque
+    * @param pIdEstoque
+    * @return ModelEstoque
+    */
+    public ModelEstoque getEstoquePorFilialController(int pIdEstoque){
+        return this.daoEstoque.retornarEstoquePorFilialDAO(pIdEstoque);
+    }
 
     /**
     * recupera uma lista deEstoque
@@ -55,5 +64,13 @@ public class ControllerEstoque {
     */
     public boolean excluirEstoqueController(int pIdEstoque){
         return this.daoEstoque.excluirEstoqueDAO(pIdEstoque);
+    }
+
+    public boolean atualizarDadoEstoqueController(ArrayList<ModelEstoque> listaModelEstoque) {
+        return this.daoEstoque.atualizarDadoEstoqueDAO(listaModelEstoque);
+    }
+
+    public ModelEstoque getEstoquePorProdutoController(int idProduto) {
+        return this.daoEstoque.getEstoquePorProdutoControllerDAO(idProduto);
     }
 }

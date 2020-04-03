@@ -62,6 +62,34 @@ public class DAOEstoque extends ConexaoSQLite {
         }
         return modelEstoque;
     }
+       
+    /**
+     * Retorna um estoque pelo codigo
+     *
+     * @param idEstoque
+     * @return modelEstoque
+     */
+    public ModelEstoque retornarEstoquePorFilialDAO(int idEstoque) {
+        ModelEstoque modelEstoque = new ModelEstoque();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM estoque WHERE idFilial = "
+                    + "'" + idEstoque + "'");
+
+            while (this.getResultSet().next()) {
+                modelEstoque.setIdEstoque(this.getResultSet().getInt(1));
+                modelEstoque.setQuantidade(this.getResultSet().getInt(2));
+                modelEstoque.setIdProduto(this.getResultSet().getInt(3));
+                modelEstoque.setIdFilial(this.getResultSet().getInt(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelEstoque;
+    }
 
     /**
      * Retorna uma lista completa de estoques
@@ -134,6 +162,51 @@ public class DAOEstoque extends ConexaoSQLite {
         } finally {
             this.desconecta();
         }
+    }
+    
+    /**
+     * Altera um dado do estoque
+     * @param listaModelEstoque
+     * @return 
+     */
+    public boolean atualizarDadoEstoqueDAO(ArrayList<ModelEstoque> listaModelEstoque) {
+        try {
+            this.conecta();
+            for (int i = 0; i < listaModelEstoque.size(); i++) {
+                this.executarUpdateDeleteSQL("UPDATE estoque SET "
+                    + "quantidade = '" + listaModelEstoque.get(i).getQuantidade()+ "'"
+                    + "WHERE idEstoque = '"+listaModelEstoque.get(i).getIdEstoque()+"'"
+                );
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            this.desconecta();
+        }
+    }
+
+    public ModelEstoque getEstoquePorProdutoControllerDAO(int idProduto) {
+        ModelEstoque modelEstoque = new ModelEstoque();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM estoque WHERE estoque.idProduto = "
+                    + "'" + idProduto + "'");
+
+            while (this.getResultSet().next()) {
+                modelEstoque.setIdEstoque(this.getResultSet().getInt(1));
+                modelEstoque.setQuantidade(this.getResultSet().getInt(2));
+                modelEstoque.setIdProduto(this.getResultSet().getInt(3));
+                modelEstoque.setIdFilial(this.getResultSet().getInt(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelEstoque;
     }
 
 }

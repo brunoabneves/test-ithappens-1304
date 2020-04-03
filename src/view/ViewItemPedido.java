@@ -5,6 +5,8 @@
  */
 package view;
 
+import controller.ControllerEstoque;
+import controller.ControllerFilial;
 import controller.ControllerItemPedido;
 import controller.ControllerProduto;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import model.ModelEstoque;
 import model.ModelItemPedido;
 import model.ModelProduto;
 
@@ -22,15 +25,18 @@ import model.ModelProduto;
  */
 public class ViewItemPedido extends javax.swing.JFrame {
     
-    ControllerItemPedido controllerItemPedido = new ControllerItemPedido();
-    ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
     ModelProduto modelProduto = new ModelProduto();
     ModelItemPedido modelItemPedido = new ModelItemPedido();
-
+    ModelEstoque modelEstoque = new ModelEstoque();
     
+    ControllerEstoque controllerEstoque = new ControllerEstoque();
+    ControllerFilial controllerFilial = new ControllerFilial();
+    ControllerItemPedido controllerItemPedido = new ControllerItemPedido();  
     ControllerProduto controllerProduto = new ControllerProduto();
+    
+    ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
-
+    ArrayList<ModelEstoque> listaModelEstoque = new ArrayList<>();
     /**
      * Creates new form ViewItemPedido
      */
@@ -68,9 +74,10 @@ public class ViewItemPedido extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         tfQuantidade = new javax.swing.JTextField();
         jbRemover = new javax.swing.JButton();
-        jbFormaPagamento = new javax.swing.JButton();
+        jbFinalizarVenda = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbAdicionar = new javax.swing.JButton();
+        cbFormaPagamento = new javax.swing.JComboBox<>();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,10 +193,10 @@ public class ViewItemPedido extends javax.swing.JFrame {
             }
         });
 
-        jbFormaPagamento.setText("Forma de Pagamento");
-        jbFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+        jbFinalizarVenda.setText("Finalizar venda");
+        jbFinalizarVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbFormaPagamentoActionPerformed(evt);
+                jbFinalizarVendaActionPerformed(evt);
             }
         });
 
@@ -206,6 +213,8 @@ public class ViewItemPedido extends javax.swing.JFrame {
                 jbAdicionarActionPerformed(evt);
             }
         });
+
+        cbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,13 +253,16 @@ public class ViewItemPedido extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jbRemover)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbFormaPagamento))
+                        .addComponent(jbFinalizarVenda))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbAdicionar)))
+                        .addComponent(jbAdicionar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,11 +294,13 @@ public class ViewItemPedido extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addComponent(jbAdicionar)))
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbRemover)
                     .addComponent(jbCancelar)
-                    .addComponent(jbFormaPagamento))
+                    .addComponent(jbFinalizarVenda))
                 .addContainerGap())
         );
 
@@ -366,26 +380,40 @@ public class ViewItemPedido extends javax.swing.JFrame {
         }                
     }//GEN-LAST:event_jbAdicionarActionPerformed
 
-    private void jbFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFormaPagamentoActionPerformed
+    private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
         // TODO add your handling code here:
+        int idProduto = 0;
+        int idEstoque = 0;
+
         listaModelItemPedido = new ArrayList<>();
         
         int tamTabela = TabelaItemPedido.getRowCount();
         for (int i = 0; i < tamTabela; i++) {
+            
+            idProduto = (int) TabelaItemPedido.getValueAt(i, 0);
             modelItemPedido = new ModelItemPedido();
-            modelItemPedido.setIdProduto((int) TabelaItemPedido.getValueAt(i, 0));
+            modelEstoque = new ModelEstoque();
+            modelItemPedido.setIdProduto(idProduto);
             modelItemPedido.setStatus("Ativo");
             modelItemPedido.setQuantidade((int) TabelaItemPedido.getValueAt(i, 2));
             modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
             
+            idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+            modelEstoque.setIdEstoque(idEstoque);
+            modelEstoque.setQuantidade(controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString()));
+            
             listaModelItemPedido.add(modelItemPedido);
+            listaModelEstoque.add(modelEstoque);
         }
+        
         //Salva os produtos da venda
         if(controllerItemPedido.salvarItemPedidoController(listaModelItemPedido) ){
+            controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
             JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_jbFormaPagamentoActionPerformed
+            limparCampos();
+        } 
+    }//GEN-LAST:event_jbFinalizarVendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -470,6 +498,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaItemPedido;
     private javax.swing.JTable TabelaProduto;
+    private javax.swing.JComboBox<String> cbFormaPagamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -485,7 +514,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
     private javax.swing.JButton jbBuscaPorDescricao;
     private javax.swing.JButton jbBuscaPorId;
     private javax.swing.JButton jbCancelar;
-    private javax.swing.JButton jbFormaPagamento;
+    private javax.swing.JButton jbFinalizarVenda;
     private javax.swing.JButton jbRemover;
     private javax.swing.JTextField tfCodBarrasProd;
     private javax.swing.JTextField tfCodProduto;
