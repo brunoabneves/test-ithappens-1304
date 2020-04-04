@@ -58,6 +58,8 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     ArrayList<ModelCliente> listaModelCliente = new ArrayList<>();
     ArrayList<ModelUsuario> listaModelUsuario = new ArrayList<>();
     ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
+    
+    String tipoPedido;
 
     /**
      * Creates new form ViewPedidoEstoque
@@ -68,7 +70,10 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         preencherComboBoxFilial();
         preencherComboBoxUsuario();
         preencherComboBoxCliente();
-        preencheTabelaProdutos();
+        preencheTabelaProdutosSaida();
+        preencheTabelaProdutosEntrada();
+        preencherComboBoxFormaPagamento();
+        preencherComboBoxFormaPagamentoEntrada();
     }
 
     /**
@@ -97,6 +102,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         tfCodCliente = new javax.swing.JTextField();
         cbCliente = new javax.swing.JComboBox<>();
         jbPedidoSaida = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -120,6 +126,27 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         TabelaProduto = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jbBuscaPorDescricao1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        cbFormaPagamentoEntrada = new javax.swing.JComboBox<>();
+        tfQuantidadeEntrada = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TabelaProdutoEntrada = new javax.swing.JTable();
+        tfCodBarrasProdEntrada = new javax.swing.JTextField();
+        jbRemoverEntrada = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jbBuscaPorCodBarraEntrada = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jbFinalizarCompra = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TabelaItemPedidoEntrada = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        jbCancelarEntrada = new javax.swing.JButton();
+        tfCodProdutoEntrada = new javax.swing.JTextField();
+        tfDescricaoEntrada = new javax.swing.JTextField();
+        jbBuscaPorIdEntrada = new javax.swing.JButton();
+        jbAdicionarEntrada = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pedido");
@@ -137,12 +164,30 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         });
 
         cbFilial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFilial.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cbFilialPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
 
         jLabel6.setText("Id Usuário");
 
         jLabel2.setText("Usuario:");
 
         cbUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbUsuario.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cbUsuarioPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
         cbUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbUsuarioActionPerformed(evt);
@@ -160,6 +205,15 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         });
 
         cbCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cbClientePopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
         cbCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbClienteActionPerformed(evt);
@@ -170,6 +224,13 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         jbPedidoSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbPedidoSaidaActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Pedido Entrada");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -217,7 +278,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                         .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(295, 295, 295)
+                .addGap(195, 195, 195)
+                .addComponent(jButton1)
+                .addGap(56, 56, 56)
                 .addComponent(jbPedidoSaida)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -246,9 +309,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                     .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
-                .addComponent(jbPedidoSaida)
-                .addContainerGap(365, Short.MAX_VALUE))
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbPedidoSaida)
+                    .addComponent(jButton1))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
         jtpItemPedido.addTab("tab1", jPanel1);
@@ -336,6 +401,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         });
 
         cbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbFormaPagamentoActionPerformed(evt);
+            }
+        });
 
         TabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -458,15 +528,207 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
         jtpItemPedido.addTab("tab2", jPanel2);
 
+        jbBuscaPorDescricao1.setText("jButton3");
+        jbBuscaPorDescricao1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscaPorDescricao1ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Código de barras:");
+
+        cbFormaPagamentoEntrada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        TabelaProdutoEntrada.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Cod Barras", "Descrição", "Valor"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(TabelaProdutoEntrada);
+
+        jbRemoverEntrada.setText("Remover");
+        jbRemoverEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverEntradaActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Forma de pagamento:");
+
+        jbBuscaPorCodBarraEntrada.setText("jButton2");
+        jbBuscaPorCodBarraEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscaPorCodBarraEntradaActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("Id:");
+
+        jbFinalizarCompra.setText("Finalizar compra");
+        jbFinalizarCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFinalizarCompraActionPerformed(evt);
+            }
+        });
+
+        TabelaItemPedidoEntrada.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Produto", "Status", "Qtd", "Valor unitário", "Valor total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(TabelaItemPedidoEntrada);
+
+        jLabel16.setText("Descrição:");
+
+        jbCancelarEntrada.setText("Cancelar");
+        jbCancelarEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarEntradaActionPerformed(evt);
+            }
+        });
+
+        jbBuscaPorIdEntrada.setText("jButton1");
+        jbBuscaPorIdEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscaPorIdEntradaActionPerformed(evt);
+            }
+        });
+
+        jbAdicionarEntrada.setText("Adicionar");
+        jbAdicionarEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAdicionarEntradaActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("Qtd:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 655, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(tfDescricaoEntrada)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel15)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(tfCodProdutoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jbBuscaPorIdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfCodBarrasProdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel13))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbBuscaPorDescricao1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jbBuscaPorCodBarraEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane5)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jbCancelarEntrada)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbRemoverEntrada)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbFinalizarCompra))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfQuantidadeEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbAdicionarEntrada))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbFormaPagamentoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 491, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCodProdutoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorIdEntrada)
+                            .addComponent(tfCodBarrasProdEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorCodBarraEntrada))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfDescricaoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorDescricao1))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfQuantidadeEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17)
+                        .addComponent(jbAdicionarEntrada)))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFormaPagamentoEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbRemoverEntrada)
+                    .addComponent(jbCancelarEntrada)
+                    .addComponent(jbFinalizarCompra))
+                .addContainerGap())
         );
 
         jtpItemPedido.addTab("tab3", jPanel3);
@@ -643,12 +905,184 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void jbPedidoSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPedidoSaidaActionPerformed
         // TODO add your handling code here:
+        tipoPedido = "SAÍDA";
         if (!confirmaPreenchimentoPedidoEstoque()) {;
             jtpItemPedido.setSelectedIndex(1);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jbPedidoSaidaActionPerformed
+
+    private void jbBuscaPorDescricao1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorDescricao1ActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProdutoEntrada.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProdutoEntrada.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfDescricaoEntrada.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 2));
+    }//GEN-LAST:event_jbBuscaPorDescricao1ActionPerformed
+
+    private void jbRemoverEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverEntradaActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+        modelItemPedido.setStatus("Cancelado");
+    }//GEN-LAST:event_jbRemoverEntradaActionPerformed
+
+    private void jbBuscaPorCodBarraEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorCodBarraEntradaActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProdutoEntrada.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProdutoEntrada.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfCodBarrasProdEntrada.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 1));
+    }//GEN-LAST:event_jbBuscaPorCodBarraEntradaActionPerformed
+
+    private void jbFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarCompraActionPerformed
+        salvarPedidoEstoque();
+
+        int idProduto = 0;
+        int idEstoque = 0;
+        int quantidade = 0;
+
+        listaModelItemPedido = new ArrayList<>();
+
+        int tamTabela = TabelaItemPedidoEntrada.getRowCount();
+        for (int i = 0; i < tamTabela; i++) {
+
+            idProduto = (int) TabelaItemPedidoEntrada.getValueAt(i, 0);
+            modelItemPedido = new ModelItemPedido();
+            modelEstoque = new ModelEstoque();
+            modelItemPedido.setIdProduto(idProduto);
+            modelItemPedido.setStatus("Processado");
+            modelItemPedido.setQuantidade((int) TabelaItemPedidoEntrada.getValueAt(i, 2));
+            modelItemPedido.setValorUnitario((double) TabelaItemPedidoEntrada.getValueAt(i, 3));
+            modelItemPedido.setValorTotal((double) TabelaItemPedidoEntrada.getValueAt(i, 4));
+            modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
+
+            listaModelItemPedido.add(modelItemPedido);
+            listaModelEstoque.add(modelEstoque);
+        }
+
+        //Salva os produtos da venda
+        if (controllerItemPedido.salvarItemPedidoController(listaModelItemPedido)) {
+            controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
+            JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbFinalizarCompraActionPerformed
+
+    private void jbCancelarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarEntradaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbCancelarEntradaActionPerformed
+
+    private void jbBuscaPorIdEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorIdEntradaActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProdutoEntrada.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProdutoEntrada.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfCodProdutoEntrada.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 0));
+    }//GEN-LAST:event_jbBuscaPorIdEntradaActionPerformed
+
+    private void jbAdicionarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarEntradaActionPerformed
+        /**
+         * Preenche a tabela de itemPedido com os produtos do banco
+         */
+        int linha = this.TabelaProdutoEntrada.getSelectedRow();
+        int idProdutoaux = 0;
+        int idEstoque = 0;
+        int quantidade = 0;
+
+        try {
+            int idProduto = (int) this.TabelaProdutoEntrada.getValueAt(linha, 0);
+            modelProduto = controllerProduto.retornarProdutoController(idProduto);
+
+            modelItemPedido.setIdProduto(modelProduto.getIdProduto());
+            modelItemPedido.setStatus("Ativo");
+            modelItemPedido.setQuantidade(Integer.parseInt(this.tfQuantidadeEntrada.getText()));
+            modelItemPedido.setValorUnitario(modelProduto.getValor());
+            modelItemPedido.setValorTotal(modelProduto.getValor() * Integer.parseInt(tfQuantidadeEntrada.getText()));
+            modelItemPedido.setIdPedidoEstoque(modelPedidoEstoque.getIdPedidoEstoque());
+
+            preencheTabelaItemProdutosEntrada();
+
+            int tamTabela = TabelaItemPedidoEntrada.getRowCount();
+
+            for (int i = 0; i < tamTabela; i++) {
+
+                idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+                modelEstoque.setIdEstoque(idEstoque);
+                quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() + Integer.parseInt(TabelaItemPedidoEntrada.getValueAt(i, 2).toString());
+
+                if (modelItemPedido.getIdProduto() == idProdutoaux) {
+                    limparLinhaTabela(i);
+                    JOptionPane.showMessageDialog(this, "Produto já foi adicionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+                }
+
+                idProdutoaux = (int) TabelaItemPedidoEntrada.getValueAt(i, 0);
+            }
+
+            if (quantidade >= 0) {
+                modelEstoque.setQuantidade(quantidade);
+            }
+
+        } catch (Exception e) {
+            e.getMessage();
+            JOptionPane.showMessageDialog(this, e, "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbAdicionarEntradaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        tipoPedido = "ENTRADA";
+        if (!confirmaPreenchimentoPedidoEstoque()) {;
+            jtpItemPedido.setSelectedIndex(2);
+        } else {
+            JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFormaPagamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbFormaPagamentoActionPerformed
+
+    private void cbUsuarioPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbUsuarioPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (cbUsuario.isPopupVisible()) {
+            modelUsuario = controllerUsuario.getUsuarioController(cbUsuario.getSelectedItem().toString());
+            tfCodUsuario.setText(String.valueOf(modelUsuario.getIdUsuario()));
+        }
+    }//GEN-LAST:event_cbUsuarioPopupMenuWillBecomeInvisible
+
+    private void cbClientePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbClientePopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (cbCliente.isPopupVisible()) {
+            modelCliente = controllerCliente.retornarClienteController(cbCliente.getSelectedItem().toString());
+            tfCodCliente.setText(String.valueOf(modelCliente.getIdCliente()));
+        }
+    }//GEN-LAST:event_cbClientePopupMenuWillBecomeInvisible
+
+    private void cbFilialPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbFilialPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (cbFilial.isPopupVisible()) {
+            modelFilial = controllerFilial.getFilialController(cbFilial.getSelectedItem().toString());
+            tfCodFilial.setText(String.valueOf(modelFilial.getIdFilial()));
+        }
+    }//GEN-LAST:event_cbFilialPopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
@@ -687,7 +1121,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void salvarPedidoEstoque() {
         // Salva um novo pedido de estoque no banco
-        modelPedidoEstoque.setTipo("SAÍDA");
+        modelPedidoEstoque.setTipo(tipoPedido);
         modelPedidoEstoque.setIdUsuario(Integer.parseInt(tfCodUsuario.getText()));
         modelPedidoEstoque.setIdCliente(Integer.parseInt(tfCodCliente.getText()));
         modelPedidoEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
@@ -762,9 +1196,28 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     /**
      * Preenche a tabela de produtos com os produtos do banco
      */
-    private void preencheTabelaProdutos() {
+    private void preencheTabelaProdutosSaida() {
         listaModelProduto = controllerProduto.retornarListaProdutoController();
         DefaultTableModel modelo = (DefaultTableModel) TabelaProduto.getModel();
+        modelo.setNumRows(0);
+
+        //inserir produtos na tabela
+        int count = listaModelProduto.size();
+        for (int i = 0; i < count; i++) {
+            modelo.addRow(new Object[]{
+                listaModelProduto.get(i).getIdProduto(),
+                listaModelProduto.get(i).getCodBarras(),
+                listaModelProduto.get(i).getDescricao(),
+                listaModelProduto.get(i).getValor()
+            });
+        }
+    }
+    /**
+     * Preenche a tabela de produtos com os produtos do banco
+     */
+    private void preencheTabelaProdutosEntrada() {
+        listaModelProduto = controllerProduto.retornarListaProdutoController();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaProdutoEntrada.getModel();
         modelo.setNumRows(0);
 
         //inserir produtos na tabela
@@ -794,27 +1247,77 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.getValorTotal()
         });
     }
+    
+     private void preencheTabelaItemProdutosEntrada() {
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedidoEntrada.getModel();
+        int count = 0;
+        for (int i = 0; i < count; i++) {
+            modelo.setNumRows(0);
+        }
+
+        modelo.addRow(new Object[]{
+            modelItemPedido.getIdProduto(),
+            modelItemPedido.getStatus(),
+            modelItemPedido.getQuantidade(),
+            modelItemPedido.getValorUnitario(),
+            modelItemPedido.getValorTotal()
+        });
+    }
 
     private void limparCampos() {
         int linha = this.TabelaItemPedido.getSelectedRow();
+        int linha2 = this.TabelaItemPedidoEntrada.getSelectedRow();
         DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
+        DefaultTableModel modelo2 = (DefaultTableModel) TabelaItemPedidoEntrada.getModel();
 
         modelo.removeRow(linha);
+        modelo2.removeRow(linha2);
 
+    }
+
+    /**
+     * Preenche o comboBox com as formas de pagamento do banco
+     */
+    private void preencherComboBoxFormaPagamento() {
+        listaModelFormaPagamento = controllerFormaPagamento.getListaFormaPagamentoController();
+        cbFormaPagamento.removeAllItems();
+        for (int i = 0; i < listaModelFormaPagamento.size(); i++) {
+            cbFormaPagamento.addItem(listaModelFormaPagamento.get(i).getTipoPagamento());
+        }
+    }
+    
+     /**
+     * Preenche o comboBox com as formas de pagamento do banco
+     */
+    private void preencherComboBoxFormaPagamentoEntrada() {
+        listaModelFormaPagamento = controllerFormaPagamento.getListaFormaPagamentoController();
+        cbFormaPagamentoEntrada.removeAllItems();
+        for (int i = 0; i < listaModelFormaPagamento.size(); i++) {
+            cbFormaPagamentoEntrada.addItem(listaModelFormaPagamento.get(i).getTipoPagamento());
+        }
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaItemPedido;
+    private javax.swing.JTable TabelaItemPedidoEntrada;
     private javax.swing.JTable TabelaProduto;
+    private javax.swing.JTable TabelaProdutoEntrada;
     private javax.swing.JComboBox<String> cbCliente;
     private javax.swing.JComboBox<String> cbFilial;
     private javax.swing.JComboBox<String> cbFormaPagamento;
+    private javax.swing.JComboBox<String> cbFormaPagamentoEntrada;
     private javax.swing.JComboBox<String> cbUsuario;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -827,23 +1330,36 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JButton jbAdicionar;
+    private javax.swing.JButton jbAdicionarEntrada;
     private javax.swing.JButton jbBuscaPorCodBarra;
+    private javax.swing.JButton jbBuscaPorCodBarraEntrada;
     private javax.swing.JButton jbBuscaPorDescricao;
+    private javax.swing.JButton jbBuscaPorDescricao1;
     private javax.swing.JButton jbBuscaPorId;
+    private javax.swing.JButton jbBuscaPorIdEntrada;
     private javax.swing.JButton jbCancelar;
+    private javax.swing.JButton jbCancelarEntrada;
+    private javax.swing.JButton jbFinalizarCompra;
     private javax.swing.JButton jbFinalizarVenda;
     private javax.swing.JButton jbPedidoSaida;
     private javax.swing.JButton jbRemover;
+    private javax.swing.JButton jbRemoverEntrada;
     private javax.swing.JTabbedPane jtpItemPedido;
     private javax.swing.JTextField tfCodBarrasProd;
+    private javax.swing.JTextField tfCodBarrasProdEntrada;
     private javax.swing.JTextField tfCodCliente;
     private javax.swing.JTextField tfCodFilial;
     private javax.swing.JTextField tfCodProduto;
+    private javax.swing.JTextField tfCodProdutoEntrada;
     private javax.swing.JTextField tfCodUsuario;
     private javax.swing.JTextField tfDescricao;
+    private javax.swing.JTextField tfDescricaoEntrada;
     private javax.swing.JTextField tfObservacao;
     private javax.swing.JTextField tfQuantidade;
+    private javax.swing.JTextField tfQuantidadeEntrada;
     // End of variables declaration//GEN-END:variables
 }
