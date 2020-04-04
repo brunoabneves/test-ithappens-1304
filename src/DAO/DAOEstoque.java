@@ -132,9 +132,7 @@ public class DAOEstoque extends ConexaoSQLite {
         try {
             this.conecta();
             return this.executarUpdateDeleteSQL("UPDATE estoque SET "
-                    + "quantidade = '" + modelEstoque.getQuantidade()+ "',"
-                    + "idProduto = '"+modelEstoque.getIdProduto()+","
-                    + "idFilial = '"+modelEstoque.getIdFilial()+"' "
+                    + "quantidade = '" + modelEstoque.getQuantidade()+ "' "
                     + "WHERE idEstoque = '"+modelEstoque.getIdEstoque()+"'"
             );
         } catch (Exception e) {

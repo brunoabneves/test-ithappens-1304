@@ -148,14 +148,15 @@ public class DAOItemPedido extends ConexaoSQLite {
             this.conecta();
             int cont = listaModelItemPedido.size();
             for (int i = 0; i < cont; i++) {
-                 this.insertSQL("INSERT INTO itemPedido (status, quantidade, valorUnitario, valorTotal, idProduto, idFormaPagamento) "
+                 this.insertSQL("INSERT INTO itemPedido (status, quantidade, valorUnitario, valorTotal, idProduto, idFormaPagamento, idPedidoEstoque) "
                     + "VALUES ("
                     + "'" +listaModelItemPedido.get(i).getStatus()+ "',"
                     + "'" +listaModelItemPedido.get(i).getQuantidade()+ "',"
                     + "'" +listaModelItemPedido.get(i).getValorUnitario()+"',"
                     + "'" +listaModelItemPedido.get(i).getValorTotal()+"',"
                     + "'" +listaModelItemPedido.get(i).getIdProduto()+"',"
-                    + "'" +listaModelItemPedido.get(i).getIdFormaPagamento()+"')"
+                    + "'" +listaModelItemPedido.get(i).getIdFormaPagamento()+"',"
+                    + "'" +listaModelItemPedido.get(i).getIdPedidoEstoque()+"')"
                 );
             }
             return true;

@@ -45,7 +45,7 @@ public class ViewMain extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastro");
 
-        jMenuItem1.setText("Estoque");
+        jMenuItem1.setText("Cadastrar Estoque");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -53,7 +53,7 @@ public class ViewMain extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Produto");
+        jMenuItem2.setText("Cadastrar Produto");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -61,7 +61,7 @@ public class ViewMain extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
-        jMenuItem3.setText("Filial");
+        jMenuItem3.setText("Cadastar Filial");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -69,7 +69,7 @@ public class ViewMain extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setText("Usuário");
+        jMenuItem4.setText("Cadastrar Usuário");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -77,7 +77,7 @@ public class ViewMain extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
-        jMenuItem5.setText("Cliente");
+        jMenuItem5.setText("Cadastrar Cliente");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);

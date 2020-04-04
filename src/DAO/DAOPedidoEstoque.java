@@ -66,8 +66,10 @@ public class DAOPedidoEstoque extends ConexaoSQLite {
                     + "filial.idFilial,"
                     + "filial.nome"
                     + " FROM "
-                    + "pedidoEstoque INNER JOIN pedidoEstoque "
-                    + "ON pedidoEstoque.idPedidoEstoque = pedidoEstoque.idPedidoEstoque;"
+                    + "pedidoEstoque INNER JOIN usuario "
+                    + "ON pedidoEstoque.idUsuario = usuario.idUsuario "
+                    + "INNER JOIN cliente ON pedidoEstoque.idCliente = cliente.idCliente "
+                    + "INNER JOIN filial ON pedidoEstoque.idFilial = filial.idFilial;"
                     + ";"
             );
             
@@ -86,7 +88,7 @@ public class DAOPedidoEstoque extends ConexaoSQLite {
                 modelFilial.setIdFilial(this.getResultSet().getInt(1));
                 modelFilial.setNome(this.getResultSet().getString(2));
                 
-                //modelPedidoEstoque.setIdPedidoEstoque(this.getResultSet().getInt(1));
+                modelPedidoEstoque.setIdPedidoEstoque(this.getResultSet().getInt(1));
                 modelPedidoEstoque.setTipo(this.getResultSet().getString(2));
                 modelPedidoEstoque.setIdUsuario(this.getResultSet().getInt(3));
                 modelPedidoEstoque.setIdCliente(this.getResultSet().getInt(4));

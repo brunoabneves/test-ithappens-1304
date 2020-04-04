@@ -6,14 +6,24 @@
 package view;
 
 import controller.ControllerCliente;
+import controller.ControllerEstoque;
 import controller.ControllerFilial;
+import controller.ControllerFormaPagamento;
+import controller.ControllerItemPedido;
 import controller.ControllerPedidoEstoque;
 import controller.ControllerProduto;
 import controller.ControllerUsuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import model.ModelCliente;
+import model.ModelEstoque;
 import model.ModelFilial;
+import model.ModelFormaPagamento;
+import model.ModelItemPedido;
 import model.ModelPedidoEstoque;
 import model.ModelProduto;
 import model.ModelUsuario;
@@ -24,27 +34,31 @@ import model.ModelUsuario;
  */
 public class ViewPedidoEstoque extends javax.swing.JFrame {
 
-    ControllerPedidoEstoque controllerPedidoEstoque = new ControllerPedidoEstoque();
-    ArrayList<ModelPedidoEstoque> listaModelPedidoEstoque = new ArrayList<>();
-    ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
-    
-    ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
-    ControllerFilial controllerFilial = new ControllerFilial();
-    
-    ArrayList<ModelUsuario> listaModelUsuario = new ArrayList<>();
-    ControllerUsuario controllerUsuario = new ControllerUsuario();
-    
-    ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
-    ControllerProduto controllerProduto = new ControllerProduto();
-    
-    ArrayList<ModelCliente> listaModelCliente = new ArrayList<>();
-    ControllerCliente controllerCliente = new ControllerCliente();
-    
-    ModelFilial modelFilial = new ModelFilial();
     ModelProduto modelProduto = new ModelProduto();
+    ModelItemPedido modelItemPedido = new ModelItemPedido();
+    ModelEstoque modelEstoque = new ModelEstoque();
+    ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
+    ModelFilial modelFilial = new ModelFilial();
     ModelUsuario modelUsuario = new ModelUsuario();
     ModelCliente modelCliente = new ModelCliente();
-    
+
+    ControllerEstoque controllerEstoque = new ControllerEstoque();
+    ControllerFilial controllerFilial = new ControllerFilial();
+    ControllerItemPedido controllerItemPedido = new ControllerItemPedido();
+    ControllerProduto controllerProduto = new ControllerProduto();
+    ControllerFormaPagamento controllerFormaPagamento = new ControllerFormaPagamento();
+    ControllerPedidoEstoque controllerPedidoEstoque = new ControllerPedidoEstoque();
+    ControllerCliente controllerCliente = new ControllerCliente();
+    ControllerUsuario controllerUsuario = new ControllerUsuario();
+
+    ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
+    ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
+    ArrayList<ModelEstoque> listaModelEstoque = new ArrayList<>();
+    ArrayList<ModelFormaPagamento> listaModelFormaPagamento = new ArrayList<>();
+    ArrayList<ModelCliente> listaModelCliente = new ArrayList<>();
+    ArrayList<ModelUsuario> listaModelUsuario = new ArrayList<>();
+    ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
+
     /**
      * Creates new form ViewPedidoEstoque
      */
@@ -52,9 +66,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         preencherComboBoxFilial();
-        preencherComboBoxProduto();
         preencherComboBoxUsuario();
         preencherComboBoxCliente();
+        preencheTabelaProdutos();
     }
 
     /**
@@ -66,88 +80,91 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        cbFilial = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        cbUsuario = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        cbCliente = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        cbProduto = new javax.swing.JComboBox<>();
-        jbPedidoEntrada = new javax.swing.JButton();
-        jbPedidoSaida = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        tfCodFilial = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        tfCodUsuario = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        tfCodCliente = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        tfCodProduto = new javax.swing.JTextField();
+        jtpItemPedido = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         tfObservacao = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        tfCodFilial = new javax.swing.JTextField();
+        cbFilial = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        tfCodUsuario = new javax.swing.JTextField();
+        cbUsuario = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        tfCodCliente = new javax.swing.JTextField();
+        cbCliente = new javax.swing.JComboBox<>();
+        jbPedidoSaida = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TabelaItemPedido = new javax.swing.JTable();
+        tfCodProduto = new javax.swing.JTextField();
+        jbBuscaPorId = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        tfQuantidade = new javax.swing.JTextField();
+        tfCodBarrasProd = new javax.swing.JTextField();
+        jbRemover = new javax.swing.JButton();
+        jbBuscaPorCodBarra = new javax.swing.JButton();
+        jbFinalizarVenda = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jbCancelar = new javax.swing.JButton();
+        tfDescricao = new javax.swing.JTextField();
+        jbAdicionar = new javax.swing.JButton();
+        jbBuscaPorDescricao = new javax.swing.JButton();
+        cbFormaPagamento = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TabelaProduto = new javax.swing.JTable();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pedido");
 
+        jLabel9.setText("Observação de entrega:");
+
+        jLabel5.setText("Id Filial");
+
         jLabel1.setText("Filial:");
 
-        cbFilial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbFilial.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                cbFilialPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-        });
-        cbFilial.addActionListener(new java.awt.event.ActionListener() {
+        tfCodFilial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbFilialActionPerformed(evt);
+                tfCodFilialActionPerformed(evt);
             }
         });
+
+        cbFilial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel6.setText("Id Usuário");
 
         jLabel2.setText("Usuario:");
 
         cbUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbUsuario.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                cbUsuarioPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+        cbUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbUsuarioActionPerformed(evt);
             }
         });
+
+        jLabel7.setText("Id Cliente");
 
         jLabel3.setText("Cliente:");
 
+        tfCodCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCodClienteActionPerformed(evt);
+            }
+        });
+
         cbCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbCliente.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                cbClientePopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+        cbCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbClienteActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Produto:");
-
-        cbProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbProduto.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
-            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
-            }
-            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
-                cbProdutoPopupMenuWillBecomeInvisible(evt);
-            }
-            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
-            }
-        });
-
-        jbPedidoEntrada.setText("Pedido Entrada");
 
         jbPedidoSaida.setText("Pedido Saída");
         jbPedidoSaida.addActionListener(new java.awt.event.ActionListener() {
@@ -156,165 +173,482 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Id Filial");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfCodUsuario))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(tfCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(295, 295, 295)
+                .addComponent(jbPedidoSaida)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfCodUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addComponent(jbPedidoSaida)
+                .addContainerGap(365, Short.MAX_VALUE))
+        );
 
-        jLabel6.setText("Id Usuário");
+        jtpItemPedido.addTab("tab1", jPanel1);
 
-        tfCodUsuario.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Id:");
+
+        TabelaItemPedido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Produto", "Status", "Qtd", "Valor unitário", "Valor total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(TabelaItemPedido);
+
+        jbBuscaPorId.setText("jButton1");
+        jbBuscaPorId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCodUsuarioActionPerformed(evt);
+                jbBuscaPorIdActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Id Cliente");
+        jLabel8.setText("Qtd:");
 
-        jLabel8.setText("Id Produto");
+        jLabel10.setText("Código de barras:");
 
-        jLabel9.setText("Observação de entrega:");
+        jbRemover.setText("Remover");
+        jbRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverActionPerformed(evt);
+            }
+        });
+
+        jbBuscaPorCodBarra.setText("jButton2");
+        jbBuscaPorCodBarra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscaPorCodBarraActionPerformed(evt);
+            }
+        });
+
+        jbFinalizarVenda.setText("Finalizar venda");
+        jbFinalizarVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFinalizarVendaActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Descrição:");
+
+        jbCancelar.setText("Cancelar");
+        jbCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCancelarActionPerformed(evt);
+            }
+        });
+
+        jbAdicionar.setText("Adicionar");
+        jbAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAdicionarActionPerformed(evt);
+            }
+        });
+
+        jbBuscaPorDescricao.setText("jButton3");
+        jbBuscaPorDescricao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscaPorDescricaoActionPerformed(evt);
+            }
+        });
+
+        cbFormaPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        TabelaProduto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Cod Barras", "Descrição", "Valor"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TabelaProduto);
+
+        jLabel12.setText("Forma de pagamento:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(tfDescricao)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(tfCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jbBuscaPorId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfCodBarrasProd, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel10))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbBuscaPorDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jbBuscaPorCodBarra, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jbCancelar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbFinalizarVenda))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbAdicionar))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorId)
+                            .addComponent(tfCodBarrasProd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorCodBarra))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscaPorDescricao))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tfQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)
+                        .addComponent(jbAdicionar)))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFormaPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbRemover)
+                    .addComponent(jbCancelar)
+                    .addComponent(jbFinalizarVenda))
+                .addContainerGap())
+        );
+
+        jtpItemPedido.addTab("tab2", jPanel2);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 655, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 491, Short.MAX_VALUE)
+        );
+
+        jtpItemPedido.addTab("tab3", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(jbPedidoEntrada)
-                        .addGap(67, 67, 67)
-                        .addComponent(jbPedidoSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel9))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tfCodFilial)
-                                    .addComponent(tfCodCliente))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfCodUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8)
-                                    .addComponent(tfCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(cbProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(tfObservacao))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jtpItemPedido)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbFilial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfCodUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbPedidoEntrada)
-                    .addComponent(jbPedidoSaida))
-                .addGap(21, 21, 21))
+                .addComponent(jtpItemPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbFilialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFilialActionPerformed
+    private void jbBuscaPorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorIdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbFilialActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProduto.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfCodProduto.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 0));
+    }//GEN-LAST:event_jbBuscaPorIdActionPerformed
+
+    private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
+        // TODO add your handling code here:
+        limparCampos();
+        modelItemPedido.setStatus("Cancelado");
+    }//GEN-LAST:event_jbRemoverActionPerformed
+
+    private void jbBuscaPorCodBarraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorCodBarraActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProduto.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfCodBarrasProd.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 1));
+    }//GEN-LAST:event_jbBuscaPorCodBarraActionPerformed
+
+    private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
+        // TODO add your handling code here:
+        salvarPedidoEstoque();
+
+        int idProduto = 0;
+        int idEstoque = 0;
+        int quantidade = 0;
+
+        listaModelItemPedido = new ArrayList<>();
+
+        int tamTabela = TabelaItemPedido.getRowCount();
+        for (int i = 0; i < tamTabela; i++) {
+
+            idProduto = (int) TabelaItemPedido.getValueAt(i, 0);
+            modelItemPedido = new ModelItemPedido();
+            modelEstoque = new ModelEstoque();
+            modelItemPedido.setIdProduto(idProduto);
+            modelItemPedido.setStatus("Processado");
+            modelItemPedido.setQuantidade((int) TabelaItemPedido.getValueAt(i, 2));
+            modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
+            modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
+            modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
+
+            listaModelItemPedido.add(modelItemPedido);
+            listaModelEstoque.add(modelEstoque);
+        }
+
+        //Salva os produtos da venda
+        if (controllerItemPedido.salvarItemPedidoController(listaModelItemPedido)) {
+            controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
+            JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbFinalizarVendaActionPerformed
+
+    private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarActionPerformed
+        /**
+         * Preenche a tabela de itemPedido com os produtos do banco
+         */
+        int linha = this.TabelaProduto.getSelectedRow();
+        int idProdutoaux = 0;
+        int idEstoque = 0;
+        int quantidade = 0;
+
+        try {
+            int idProduto = (int) this.TabelaProduto.getValueAt(linha, 0);
+            modelProduto = controllerProduto.retornarProdutoController(idProduto);
+
+            modelItemPedido.setIdProduto(modelProduto.getIdProduto());
+            modelItemPedido.setStatus("Ativo");
+            modelItemPedido.setQuantidade(Integer.parseInt(this.tfQuantidade.getText()));
+            modelItemPedido.setValorUnitario(modelProduto.getValor());
+            modelItemPedido.setValorTotal(modelProduto.getValor() * Integer.parseInt(tfQuantidade.getText()));
+            modelItemPedido.setIdPedidoEstoque(modelPedidoEstoque.getIdPedidoEstoque());
+
+            preencheTabelaItemProdutos();
+
+            int tamTabela = TabelaItemPedido.getRowCount();
+
+            for (int i = 0; i < tamTabela; i++) {
+
+                idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+                modelEstoque.setIdEstoque(idEstoque);
+                quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
+
+                if (modelItemPedido.getIdProduto() == idProdutoaux) {
+                    limparLinhaTabela(i);
+                    JOptionPane.showMessageDialog(this, "Produto já foi adicionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+                }
+
+                idProdutoaux = (int) TabelaItemPedido.getValueAt(i, 0);
+            }
+
+            if (quantidade >= 0) {
+                modelEstoque.setQuantidade(quantidade);
+            } else {
+                limparLinhaTabela(0);
+                JOptionPane.showMessageDialog(this, "Produtos insuficientes esta quantidade", "Aviso", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.getMessage();
+            JOptionPane.showMessageDialog(this, e, "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbAdicionarActionPerformed
+
+    private void jbBuscaPorDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPorDescricaoActionPerformed
+        // Busca um produto no banco
+        DefaultTableModel modelo = (DefaultTableModel) this.TabelaProduto.getModel();
+        final TableRowSorter<TableModel> classificador = new TableRowSorter<>(modelo);
+        this.TabelaProduto.setRowSorter(classificador);
+
+        //String txtId = tfId.getText();
+        //String txtCodBarras = tfCodBarras.getText();
+        String txt = tfDescricao.getText();
+
+        classificador.setRowFilter(RowFilter.regexFilter(txt, 2));
+    }//GEN-LAST:event_jbBuscaPorDescricaoActionPerformed
+
+    private void cbClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbClienteActionPerformed
+
+    private void tfCodClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCodClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCodClienteActionPerformed
+
+    private void cbUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbUsuarioActionPerformed
+
+    private void tfCodFilialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCodFilialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCodFilialActionPerformed
 
     private void jbPedidoSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPedidoSaidaActionPerformed
         // TODO add your handling code here:
-        modelPedidoEstoque.setTipo("SAÍDA");
-        modelPedidoEstoque.setIdUsuario(Integer.parseInt(tfCodUsuario.getText()));
-        modelPedidoEstoque.setIdCliente(Integer.parseInt(tfCodCliente.getText()));
-        modelPedidoEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
-        modelPedidoEstoque.setObservacao(tfObservacao.getText());
-        
-        if(controllerPedidoEstoque.salvarPedidoEstoqueController(modelPedidoEstoque) > 0){
-            
-            JOptionPane.showMessageDialog(this, "Pedido saída criado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            //this.preencherTabelaPedidoEstoque();
-            
-        }else {
-            JOptionPane.showMessageDialog(this, "Erro ao criar pedido sáida!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        if (!confirmaPreenchimentoPedidoEstoque()) {;
+            jtpItemPedido.setSelectedIndex(1);
+        }else{
+            JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jbPedidoSaidaActionPerformed
-
-    private void cbFilialPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbFilialPopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if(cbFilial.isPopupVisible()){
-            modelFilial = controllerFilial.getFilialController(cbFilial.getSelectedItem().toString());
-            tfCodFilial.setText(String.valueOf(modelFilial.getIdFilial()));
-        }
-    }//GEN-LAST:event_cbFilialPopupMenuWillBecomeInvisible
-
-    private void tfCodUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCodUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCodUsuarioActionPerformed
-
-    private void cbUsuarioPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbUsuarioPopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if(cbUsuario.isPopupVisible()){
-            modelUsuario = controllerUsuario.getUsuarioController(cbUsuario.getSelectedItem().toString());
-            tfCodUsuario.setText(String.valueOf(modelUsuario.getIdUsuario()));
-        }
-    }//GEN-LAST:event_cbUsuarioPopupMenuWillBecomeInvisible
-
-    private void cbClientePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbClientePopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if(cbCliente.isPopupVisible()){
-            modelCliente = controllerCliente.retornarClienteController(cbCliente.getSelectedItem().toString());
-            tfCodCliente.setText(String.valueOf(modelCliente.getIdCliente()));
-        }
-    }//GEN-LAST:event_cbClientePopupMenuWillBecomeInvisible
-
-    private void cbProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbProdutoPopupMenuWillBecomeInvisible
-        // TODO add your handling code here:
-        if(cbProduto.isPopupVisible()){
-            modelProduto = controllerProduto.retornarProdutoController(cbProduto.getSelectedItem().toString());
-            tfCodProduto.setText(String.valueOf(modelProduto.getIdProduto()));
-        }
-    }//GEN-LAST:event_cbProdutoPopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments
@@ -350,59 +684,137 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             }
         });
     }
-    
-     /**
+
+    private void salvarPedidoEstoque() {
+        // Salva um novo pedido de estoque no banco
+        modelPedidoEstoque.setTipo("SAÍDA");
+        modelPedidoEstoque.setIdUsuario(Integer.parseInt(tfCodUsuario.getText()));
+        modelPedidoEstoque.setIdCliente(Integer.parseInt(tfCodCliente.getText()));
+        modelPedidoEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
+        modelPedidoEstoque.setObservacao(tfObservacao.getText());
+
+        if (controllerPedidoEstoque.salvarPedidoEstoqueController(modelPedidoEstoque) > 0) {
+
+            JOptionPane.showMessageDialog(this, "Pedido saída criado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            //this.preencherTabelaPedidoEstoque();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao criar pedido sáida!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private boolean confirmaPreenchimentoPedidoEstoque() {
+        return "".equals(tfCodCliente.getText()) && "".equals(tfCodFilial.getText()) && "".equals(tfCodUsuario.getText());
+    }
+
+    /**
      * Preenche o comboBox com todas as filiais do banco
      */
-    private void preencherComboBoxFilial(){
+    private void preencherComboBoxFilial() {
         listaModelFilial = controllerFilial.getListaFilialController();
         cbFilial.removeAllItems();
         for (int i = 0; i < listaModelFilial.size(); i++) {
             cbFilial.addItem(listaModelFilial.get(i).getNome());
         }
     }
-    
-     /**
-     * Preenche o comboBox com todas os produtos do banco
-     */
-    private void preencherComboBoxProduto(){
-        listaModelProduto = controllerProduto.retornarListaProdutoController();
-        cbProduto.removeAllItems();
-        for (int i = 0; i < listaModelProduto.size(); i++) {
-            cbProduto.addItem(listaModelProduto.get(i).getDescricao());
-        }
-    }
-    
-     /**
+
+    /**
      * Preenche o comboBox com todas os usuários do banco
      */
-    private void preencherComboBoxUsuario(){
+    private void preencherComboBoxUsuario() {
         listaModelUsuario = controllerUsuario.getListaUsuarioController();
         cbUsuario.removeAllItems();
         for (int i = 0; i < listaModelUsuario.size(); i++) {
             cbUsuario.addItem(listaModelUsuario.get(i).getNome());
         }
     }
-    
-     /**
+
+    /**
      * Preenche o comboBox com todas os usuários do banco
      */
-    private void preencherComboBoxCliente(){
+    private void preencherComboBoxCliente() {
         listaModelCliente = controllerCliente.retornarListaClienteController();
         cbCliente.removeAllItems();
         for (int i = 0; i < listaModelCliente.size(); i++) {
             cbCliente.addItem(listaModelCliente.get(i).getNome());
         }
     }
-    
+
+    public ModelPedidoEstoque salvaPedidoEstoque() {
+        // salva o pedido no banco
+        modelPedidoEstoque.setTipo("SAÍDA");
+        modelPedidoEstoque.setIdUsuario(Integer.parseInt(tfCodUsuario.getText()));
+        modelPedidoEstoque.setIdCliente(Integer.parseInt(tfCodCliente.getText()));
+        modelPedidoEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
+        modelPedidoEstoque.setObservacao(tfObservacao.getText());
+
+        return modelPedidoEstoque;
+    }
+
+    private void limparLinhaTabela(int linha) {
+        //int linha = this.TabelaItemPedido.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
+
+        modelo.removeRow(linha);
+
+    }
+
+    /**
+     * Preenche a tabela de produtos com os produtos do banco
+     */
+    private void preencheTabelaProdutos() {
+        listaModelProduto = controllerProduto.retornarListaProdutoController();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaProduto.getModel();
+        modelo.setNumRows(0);
+
+        //inserir produtos na tabela
+        int count = listaModelProduto.size();
+        for (int i = 0; i < count; i++) {
+            modelo.addRow(new Object[]{
+                listaModelProduto.get(i).getIdProduto(),
+                listaModelProduto.get(i).getCodBarras(),
+                listaModelProduto.get(i).getDescricao(),
+                listaModelProduto.get(i).getValor()
+            });
+        }
+    }
+
+    private void preencheTabelaItemProdutos() {
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
+        int count = 0;
+        for (int i = 0; i < count; i++) {
+            modelo.setNumRows(0);
+        }
+
+        modelo.addRow(new Object[]{
+            modelItemPedido.getIdProduto(),
+            modelItemPedido.getStatus(),
+            modelItemPedido.getQuantidade(),
+            modelItemPedido.getValorUnitario(),
+            modelItemPedido.getValorTotal()
+        });
+    }
+
+    private void limparCampos() {
+        int linha = this.TabelaItemPedido.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
+
+        modelo.removeRow(linha);
+
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TabelaItemPedido;
+    private javax.swing.JTable TabelaProduto;
     private javax.swing.JComboBox<String> cbCliente;
     private javax.swing.JComboBox<String> cbFilial;
-    private javax.swing.JComboBox<String> cbProduto;
+    private javax.swing.JComboBox<String> cbFormaPagamento;
     private javax.swing.JComboBox<String> cbUsuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -411,12 +823,27 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JButton jbPedidoEntrada;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton jbAdicionar;
+    private javax.swing.JButton jbBuscaPorCodBarra;
+    private javax.swing.JButton jbBuscaPorDescricao;
+    private javax.swing.JButton jbBuscaPorId;
+    private javax.swing.JButton jbCancelar;
+    private javax.swing.JButton jbFinalizarVenda;
     private javax.swing.JButton jbPedidoSaida;
+    private javax.swing.JButton jbRemover;
+    private javax.swing.JTabbedPane jtpItemPedido;
+    private javax.swing.JTextField tfCodBarrasProd;
     private javax.swing.JTextField tfCodCliente;
     private javax.swing.JTextField tfCodFilial;
     private javax.swing.JTextField tfCodProduto;
     private javax.swing.JTextField tfCodUsuario;
+    private javax.swing.JTextField tfDescricao;
     private javax.swing.JTextField tfObservacao;
+    private javax.swing.JTextField tfQuantidade;
     // End of variables declaration//GEN-END:variables
 }

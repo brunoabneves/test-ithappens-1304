@@ -23,6 +23,8 @@ import model.ModelProduto;
  */
 public class ViewEstoque extends javax.swing.JFrame {
 
+    String alterarSalvar;
+
     ControllerEstoqueProduto controllerEstoqueProduto = new ControllerEstoqueProduto();
     ArrayList<ModelEstoqueProduto> listaModelEstoqueProduto = new ArrayList<>();
 
@@ -47,6 +49,7 @@ public class ViewEstoque extends javax.swing.JFrame {
         preencherTabelaEstoque();
         preencherComboBoxProduto();
         setLocationRelativeTo(null);
+        habilitaDesabilitaCampos(false);
 
     }
 
@@ -171,6 +174,11 @@ public class ViewEstoque extends javax.swing.JFrame {
         });
 
         jbNovo.setText("Novo");
+        jbNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNovoActionPerformed(evt);
+            }
+        });
 
         jbCancelar.setText("Cancelar");
 
@@ -266,57 +274,19 @@ public class ViewEstoque extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbFilialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFilialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbFilialActionPerformed
-
     private void tfQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfQuantidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfQuantidadeActionPerformed
 
-    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // Salva um estoque no banco
-        modelEstoque.setQuantidade(Integer.parseInt(tfQuantidade.getText()));
-        modelEstoque.setIdProduto(Integer.parseInt(tfCodProduto.getText()));
-        modelEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
-
-        if (controllerEstoque.salvarEstoqueController(modelEstoque) > 0) {
-
-            JOptionPane.showMessageDialog(this, "Estoque adicionado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencherTabelaEstoque();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar estoque!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_jbSalvarActionPerformed
-
-    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
-        // Exclui um estoque do banco
-        int linha = TabelaEstoque.getSelectedRow();
-        int codigo = (int) TabelaEstoque.getValueAt(linha, 0);
-        if (controllerEstoque.excluirEstoqueController(codigo)) {
-
-            JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencherTabelaEstoque();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao excluir estoque", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jbExcluirActionPerformed
-
-    private void tfCodFilialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCodFilialFocusLost
+    private void tfCodProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCodProdutoFocusLost
         // TODO add your handling code here:
+        modelProduto = controllerProduto.retornarProdutoController(Integer.parseInt(tfCodProduto.getText()));
+        cbProduto.setSelectedItem(modelProduto.getDescricao());
+    }//GEN-LAST:event_tfCodProdutoFocusLost
 
-    }//GEN-LAST:event_tfCodFilialFocusLost
-
-    private void cbFilialPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbFilialPopupMenuWillBecomeInvisible
+    private void cbProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutoActionPerformed
         // TODO add your handling code here:
-        if (cbFilial.isPopupVisible()) {
-            modelFilial = controllerFilial.getFilialController(cbFilial.getSelectedItem().toString());
-            tfCodFilial.setText(String.valueOf(modelFilial.getIdFilial()));
-        }
-    }//GEN-LAST:event_cbFilialPopupMenuWillBecomeInvisible
+    }//GEN-LAST:event_cbProdutoActionPerformed
 
     private void cbProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbProdutoPopupMenuWillBecomeInvisible
         // TODO add your handling code here:
@@ -326,19 +296,74 @@ public class ViewEstoque extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbProdutoPopupMenuWillBecomeInvisible
 
-    private void tfCodProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCodProdutoFocusLost
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        // Salva um estoque no banco
+
+        if (alterarSalvar.equals("salvar")) {
+            this.salvarEstoque();
+        } else if (alterarSalvar.equals("alterar")) {
+            this.atualizarEstoque();
+        }
+    }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void cbFilialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFilialActionPerformed
         // TODO add your handling code here:
-        modelProduto = controllerProduto.retornarProdutoController(Integer.parseInt(tfCodProduto.getText()));
-        cbProduto.setSelectedItem(modelProduto.getDescricao());
-    }//GEN-LAST:event_tfCodProdutoFocusLost
+    }//GEN-LAST:event_cbFilialActionPerformed
+
+    private void cbFilialPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbFilialPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+        if (cbFilial.isPopupVisible()) {
+            modelFilial = controllerFilial.getFilialController(cbFilial.getSelectedItem().toString());
+            tfCodFilial.setText(String.valueOf(modelFilial.getIdFilial()));
+        }
+    }//GEN-LAST:event_cbFilialPopupMenuWillBecomeInvisible
+
+    private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
+        //habilitaDesabilitaCampos(true);
+        limparCampos();
+        habilitaDesabilitaCampos(true);
+        alterarSalvar = "salvar";
+    }//GEN-LAST:event_jbNovoActionPerformed
+
+    private void tfCodFilialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfCodFilialFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCodFilialFocusLost
+
+    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
+        // Exclui um estoque do banco
+        int linha = TabelaEstoque.getSelectedRow();
+        int codigo = (int) TabelaEstoque.getValueAt(linha, 0);
+        if (controllerEstoque.excluirEstoqueController(codigo)) {
+
+            JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaEstoque();
+            habilitaDesabilitaCampos(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir estoque", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbAlterarActionPerformed
+        alterarSalvar = "alterar";
+        habilitaDesabilitaCampos(true);
+        int linha = this.TabelaEstoque.getSelectedRow();
 
-    private void cbProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbProdutoActionPerformed
+        try {
+            int idEstoque = (int) this.TabelaEstoque.getValueAt(linha, 0);
+            //recupera dados do banco
+            modelEstoque = controllerEstoque.getEstoqueController(idEstoque);
+            //seta na interface
+            this.tfCodProduto.setText(String.valueOf(modelEstoque.getIdProduto()));
+            this.tfCodFilial.setText(String.valueOf(modelEstoque.getIdFilial()));
+            this.tfQuantidade.setText(String.valueOf(modelEstoque.getQuantidade()));
+            // this.cbFilial.getItemAt((this.TabelaEstoque.getValueAt(linha, 2)));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbAlterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -373,6 +398,40 @@ public class ViewEstoque extends javax.swing.JFrame {
                 new ViewEstoque().setVisible(true);
             }
         });
+    }
+
+    private void salvarEstoque() {
+        // Salva um novo estoque no banco
+        modelEstoque.setQuantidade(Integer.parseInt(tfQuantidade.getText()));
+        modelEstoque.setIdProduto(Integer.parseInt(tfCodProduto.getText()));
+        modelEstoque.setIdFilial(Integer.parseInt(tfCodFilial.getText()));
+
+        if (controllerEstoque.salvarEstoqueController(modelEstoque) > 0) {
+
+            JOptionPane.showMessageDialog(this, "Estoque adicionado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaEstoque();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao adicionar estoque!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void atualizarEstoque() {
+        // Atualiza um produto no banco
+        modelEstoque.setQuantidade(Integer.parseInt(this.tfQuantidade.getText()));
+       // modelEstoque.setIdProduto(Integer.parseInt(this.tfCodProduto.getText()));
+        //modelEstoque.setIdFilial(Integer.parseInt(this.tfCodFilial.getText()));
+
+        if (controllerEstoque.atualizarEstoqueController(modelEstoque)) {
+
+            JOptionPane.showMessageDialog(this, "Estoque atualizado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaEstoque();
+            limparCampos();
+            //habilitaDesabilitaCampos(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar o produto!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -418,6 +477,33 @@ public class ViewEstoque extends javax.swing.JFrame {
 
     }
 
+    private void limparCampos() {
+        tfCodFilial.setText("");
+        tfCodProduto.setText("");
+        tfQuantidade.setText("");
+    }
+    
+    /**
+     * Habilita e desabilita campos do formulário
+     * @param condicao 
+     */
+    private void habilitaDesabilitaCampos(boolean condicao){
+        tfCodFilial.setEnabled(condicao);
+        tfCodProduto.setEnabled(condicao);
+        tfQuantidade.setEnabled(condicao);
+        cbFilial.setEnabled(condicao);
+        cbProduto.setEnabled(condicao);
+    }
+    
+    /**
+    private boolean checaEstoqueProduto(int idProduto){
+        modelEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto);
+        if(modelEstoque != null){
+            return true;
+        }else{
+            return false;
+        }
+    }**/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaEstoque;

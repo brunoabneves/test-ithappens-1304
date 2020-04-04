@@ -9,6 +9,7 @@ import controller.ControllerEstoque;
 import controller.ControllerFilial;
 import controller.ControllerFormaPagamento;
 import controller.ControllerItemPedido;
+import controller.ControllerPedidoEstoque;
 import controller.ControllerProduto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ import javax.swing.table.TableRowSorter;
 import model.ModelEstoque;
 import model.ModelFormaPagamento;
 import model.ModelItemPedido;
+import model.ModelPedidoEstoque;
 import model.ModelProduto;
 
 /**
@@ -30,18 +32,20 @@ public class ViewItemPedido extends javax.swing.JFrame {
     ModelProduto modelProduto = new ModelProduto();
     ModelItemPedido modelItemPedido = new ModelItemPedido();
     ModelEstoque modelEstoque = new ModelEstoque();
+    ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
 
     ControllerEstoque controllerEstoque = new ControllerEstoque();
     ControllerFilial controllerFilial = new ControllerFilial();
     ControllerItemPedido controllerItemPedido = new ControllerItemPedido();
     ControllerProduto controllerProduto = new ControllerProduto();
     ControllerFormaPagamento controllerFormaPagamento = new ControllerFormaPagamento();
+    ControllerPedidoEstoque controllerPedidoEstoque = new ControllerPedidoEstoque();
 
     ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
     ArrayList<ModelProduto> listaModelProduto = new ArrayList<>();
     ArrayList<ModelEstoque> listaModelEstoque = new ArrayList<>();
     ArrayList<ModelFormaPagamento> listaModelFormaPagamento = new ArrayList<>();
-
+    
     /**
      * Creates new form ViewItemPedido
      */
@@ -114,6 +118,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTable3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add itens ao pedido");
 
         jLabel1.setText("Id:");
 
@@ -374,8 +379,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
     private void jbAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAdicionarActionPerformed
         /**
          * Preenche a tabela de itemPedido com os produtos do banco
-         */
-
+         */     
         int linha = this.TabelaProduto.getSelectedRow();
         int idProdutoaux = 0;
         int idEstoque = 0;
@@ -390,6 +394,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
             modelItemPedido.setQuantidade(Integer.parseInt(this.tfQuantidade.getText()));
             modelItemPedido.setValorUnitario(modelProduto.getValor());
             modelItemPedido.setValorTotal(modelProduto.getValor() * Integer.parseInt(tfQuantidade.getText()));
+            modelItemPedido.setIdPedidoEstoque(modelPedidoEstoque.getIdPedidoEstoque());
 
             preencheTabelaItemProdutos();
 
@@ -424,6 +429,7 @@ public class ViewItemPedido extends javax.swing.JFrame {
 
     private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
         // TODO add your handling code here:
+        
         int idProduto = 0;
         int idEstoque = 0;
         int quantidade = 0;
@@ -442,7 +448,8 @@ public class ViewItemPedido extends javax.swing.JFrame {
             modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
-
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
+            
             listaModelItemPedido.add(modelItemPedido);
             listaModelEstoque.add(modelEstoque);
         }
