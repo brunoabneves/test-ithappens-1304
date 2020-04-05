@@ -35,8 +35,8 @@ public class ControllerEstoque {
     * @param pIdEstoque
     * @return ModelEstoque
     */
-    public ModelEstoque getEstoquePorFilialController(int pIdEstoque){
-        return this.daoEstoque.retornarEstoquePorFilialDAO(pIdEstoque);
+    public ModelEstoque getEstoquePorFilialProdutoController(int pIdEstoque, int pIdProduto){
+        return this.daoEstoque.retornarEstoquePorFilialProdutoDAO(pIdEstoque, pIdProduto);
     }
 
     /**

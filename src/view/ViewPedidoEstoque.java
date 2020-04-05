@@ -789,6 +789,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         int idProduto = 0;
         int idEstoque = 0;
         int quantidade = 0;
+        int idFilial = 0;
 
         listaModelItemPedido = new ArrayList<>();
 
@@ -796,6 +797,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         for (int i = 0; i < tamTabela; i++) {
 
             idProduto = (int) TabelaItemPedido.getValueAt(i, 0);
+            idFilial = Integer.parseInt(tfCodFilial.getText());
             modelItemPedido = new ModelItemPedido();
             modelEstoque = new ModelEstoque();
             modelItemPedido.setIdProduto(idProduto);
@@ -806,6 +808,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
             modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
 
+            idEstoque = controllerEstoque.getEstoquePorFilialProdutoController(idFilial, idProduto).getIdEstoque();
+            modelEstoque.setIdEstoque(idEstoque);
+            quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
+            modelEstoque.setQuantidade(quantidade);
+            
             listaModelItemPedido.add(modelItemPedido);
             listaModelEstoque.add(modelEstoque);
         }

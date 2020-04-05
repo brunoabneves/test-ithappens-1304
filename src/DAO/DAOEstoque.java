@@ -69,12 +69,12 @@ public class DAOEstoque extends ConexaoSQLite {
      * @param idEstoque
      * @return modelEstoque
      */
-    public ModelEstoque retornarEstoquePorFilialDAO(int idEstoque) {
+    public ModelEstoque retornarEstoquePorFilialProdutoDAO(int idFilial, int idProduto) {
         ModelEstoque modelEstoque = new ModelEstoque();
         try {
             this.conecta();
-            this.executarSQL("SELECT * FROM estoque WHERE idFilial = "
-                    + "'" + idEstoque + "'");
+            this.executarSQL("SELECT * FROM estoque WHERE estoque.idFilial = "
+                    + "'" + idFilial + "' AND estoque.idProduto = '"+idProduto+"'");
 
             while (this.getResultSet().next()) {
                 modelEstoque.setIdEstoque(this.getResultSet().getInt(1));
