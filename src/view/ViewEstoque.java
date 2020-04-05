@@ -298,11 +298,16 @@ public class ViewEstoque extends javax.swing.JFrame {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // Salva um estoque no banco
+        if (Integer.parseInt(tfCodFilial.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdFilial()
+                && Integer.parseInt(tfCodProduto.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdProduto()) {
+            JOptionPane.showMessageDialog(this, "Estoque já foi cadastrado para este produto, clique em 'Alterar', para realizar mudanças", "Erro", JOptionPane.ERROR_MESSAGE);
+        } else {
 
-        if (alterarSalvar.equals("salvar")) {
-            this.salvarEstoque();
-        } else if (alterarSalvar.equals("alterar")) {
-            this.atualizarEstoque();
+            if (alterarSalvar.equals("salvar")) {
+                this.salvarEstoque();
+            } else if (alterarSalvar.equals("alterar")) {
+                this.atualizarEstoque();
+            }
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
@@ -419,7 +424,7 @@ public class ViewEstoque extends javax.swing.JFrame {
     private void atualizarEstoque() {
         // Atualiza um produto no banco
         modelEstoque.setQuantidade(Integer.parseInt(this.tfQuantidade.getText()));
-       // modelEstoque.setIdProduto(Integer.parseInt(this.tfCodProduto.getText()));
+        // modelEstoque.setIdProduto(Integer.parseInt(this.tfCodProduto.getText()));
         //modelEstoque.setIdFilial(Integer.parseInt(this.tfCodFilial.getText()));
 
         if (controllerEstoque.atualizarEstoqueController(modelEstoque)) {
@@ -482,28 +487,25 @@ public class ViewEstoque extends javax.swing.JFrame {
         tfCodProduto.setText("");
         tfQuantidade.setText("");
     }
-    
+
     /**
      * Habilita e desabilita campos do formulário
-     * @param condicao 
+     *
+     * @param condicao
      */
-    private void habilitaDesabilitaCampos(boolean condicao){
+    private void habilitaDesabilitaCampos(boolean condicao) {
         tfCodFilial.setEnabled(condicao);
         tfCodProduto.setEnabled(condicao);
         tfQuantidade.setEnabled(condicao);
         cbFilial.setEnabled(condicao);
         cbProduto.setEnabled(condicao);
     }
-    
+
     /**
-    private boolean checaEstoqueProduto(int idProduto){
-        modelEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto);
-        if(modelEstoque != null){
-            return true;
-        }else{
-            return false;
-        }
-    }**/
+     * private boolean checaEstoqueProduto(int idProduto){ modelEstoque =
+     * controllerEstoque.getEstoquePorProdutoController(idProduto);
+     * if(modelEstoque != null){ return true; }else{ return false; } }*
+     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabelaEstoque;

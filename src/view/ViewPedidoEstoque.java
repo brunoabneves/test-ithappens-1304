@@ -34,6 +34,8 @@ import model.ModelUsuario;
  */
 public class ViewPedidoEstoque extends javax.swing.JFrame {
 
+    int countIdPedidoEstoque = 0;
+
     ModelProduto modelProduto = new ModelProduto();
     ModelItemPedido modelItemPedido = new ModelItemPedido();
     ModelEstoque modelEstoque = new ModelEstoque();
@@ -74,6 +76,8 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         preencheTabelaProdutosEntrada();
         preencherComboBoxFormaPagamento();
         preencherComboBoxFormaPagamentoEntrada();
+        jtpItemPedido.setEnabledAt(1, false);
+        jtpItemPedido.setEnabledAt(2, false);
     }
 
     /**
@@ -150,6 +154,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pedido");
+
+        jPanel1.setEnabled(false);
+        jPanel1.setFocusable(false);
 
         jLabel9.setText("Observação de entrega:");
 
@@ -239,9 +246,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tfCodUsuario))
@@ -258,7 +265,6 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
@@ -311,6 +317,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         );
 
         jtpItemPedido.addTab("Criar Pedido", jPanel1);
+
+        jPanel2.setEnabled(false);
+        jPanel2.setFocusable(false);
 
         jLabel4.setText("Id:");
 
@@ -778,9 +787,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
         // TODO add your handling code here:
+        salvarPedidoEstoque();
         int idProduto = 0;
         int idEstoque = 0;
-        int quantidade = 0;
         int idFilial = 0;
 
         listaModelItemPedido = new ArrayList<>();
@@ -798,29 +807,25 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
-            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(1).getIdPedidoEstoque());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().getIdPedidoEstoque());
 
-            idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
-            modelEstoque.setIdEstoque(idEstoque);
-            modelEstoque.setQuantidade(controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString()));
-
-            idEstoque = controllerEstoque.getEstoquePorFilialProdutoController(idFilial, idProduto).getIdEstoque();
-            modelEstoque.setIdEstoque(idEstoque);
-            quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
-            modelEstoque.setQuantidade(quantidade);
-            
+            /**
+             * idEstoque =
+             * controllerEstoque.getEstoquePorFilialProdutoController(idFilial,
+             * idProduto).getIdEstoque(); modelEstoque.setIdEstoque(idEstoque);
+             * quantidade =
+             * controllerEstoque.getEstoqueController(idEstoque).getQuantidade()
+             * - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
+             * modelEstoque.setQuantidade(quantidade);*
+             */
             listaModelItemPedido.add(modelItemPedido);
-            listaModelEstoque.add(modelEstoque);
+            listaModelEstoque.add(darBaixaEstoque(idFilial, idProduto, i));
         }
-
-        //Salva os produtos da venda
-        if (controllerItemPedido.salvarItemPedidoController(listaModelItemPedido)) {
-            controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
-            JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        //salva o produto da venda no banco
+        salvarProdutoVenda(listaModelItemPedido, listaModelEstoque);
+        countIdPedidoEstoque = countIdPedidoEstoque + 1;
         //limparCamposSaida();
+        jtpItemPedido.setSelectedIndex(0);
     }//GEN-LAST:event_jbFinalizarVendaActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -834,6 +839,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         int linha = this.TabelaProduto.getSelectedRow();
         int idProdutoaux = 0;
         int idEstoque = 0;
+        int existeEstoque = 0;
         int quantidade = 0;
 
         try {
@@ -872,6 +878,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Produtos insuficientes esta quantidade", "Aviso", JOptionPane.ERROR_MESSAGE);
             }
 
+            existeEstoque = controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), idProduto).getIdEstoque();
+            //testa se estoque existe para uma filial
+            if (existeEstoque == 0) {
+                JOptionPane.showMessageDialog(this, "Não existe estoque deste produto para esta filial: "+existeEstoque+"", "Aviso", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (Exception e) {
             e.getMessage();
             JOptionPane.showMessageDialog(this, e, "Aviso", JOptionPane.ERROR_MESSAGE);
@@ -911,8 +922,10 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         // TODO add your handling code here:
         tipoPedido = "SAÍDA";
         if (!confirmaPreenchimentoPedidoEstoque()) {;
+            //salvarPedidoEstoque();
             jtpItemPedido.setSelectedIndex(1);
-            salvarPedidoEstoque();
+            jtpItemPedido.setEnabledAt(0, false);
+            jtpItemPedido.setEnabledAt(1, true);
         } else {
             JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -970,7 +983,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.setValorUnitario((double) TabelaItemPedidoEntrada.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedidoEntrada.getValueAt(i, 4));
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
-            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(1).getIdPedidoEstoque());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().getIdPedidoEstoque());
 
             idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
             modelEstoque.setIdEstoque(idEstoque);
@@ -1312,6 +1325,35 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         for (int i = 0; i < listaModelFormaPagamento.size(); i++) {
             cbFormaPagamentoEntrada.addItem(listaModelFormaPagamento.get(i).getTipoPagamento());
         }
+    }
+
+    private void salvarProdutoVenda(ArrayList<ModelItemPedido> listaModelItemPedido, ArrayList<ModelEstoque> listaModelEstoque) {
+        //Salva os produtos da venda
+        if (controllerItemPedido.salvarItemPedidoController(listaModelItemPedido)) {
+            controllerEstoque.atualizarDadoEstoqueController(listaModelEstoque);
+            JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void checaDuplicacaoItemPedido(int idProduto, int idPedidoEstoque, int i) {
+        if (idProduto == controllerItemPedido.getItemPedidoController(idProduto).getIdProduto()
+                && idPedidoEstoque == controllerItemPedido.getItemPedidoController(idProduto).getIdPedidoEstoque()) {
+            JOptionPane.showMessageDialog(this, "Item de pedido adicionado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            limparLinhaTabela(i);
+        }
+    }
+
+    private ModelEstoque darBaixaEstoque(int idFilial, int idProduto, int i) {
+        int quantidade = 0;
+        int idEstoque = 0;
+        idEstoque = controllerEstoque.getEstoquePorFilialProdutoController(idFilial, idProduto).getIdEstoque();
+        modelEstoque.setIdEstoque(idEstoque);
+        quantidade = controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString());
+        modelEstoque.setQuantidade(quantidade);
+
+        return modelEstoque;
     }
 
 

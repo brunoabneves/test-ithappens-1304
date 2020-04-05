@@ -206,5 +206,27 @@ public class DAOEstoque extends ConexaoSQLite {
         }
         return modelEstoque;
     }
+    
+    public ModelEstoque getEstoquePorProdutoFilialControllerDAO(int idProduto, int idFilial) {
+        ModelEstoque modelEstoque = new ModelEstoque();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM estoque WHERE estoque.idProduto = "
+                    + "'" + idProduto + "' AND estoque.idFilial = '"+idFilial+"'");
+
+            while (this.getResultSet().next()) {
+                modelEstoque.setIdEstoque(this.getResultSet().getInt(1));
+                modelEstoque.setQuantidade(this.getResultSet().getInt(2));
+                modelEstoque.setIdProduto(this.getResultSet().getInt(3));
+                modelEstoque.setIdFilial(this.getResultSet().getInt(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelEstoque;
+    }
 
 }

@@ -15,7 +15,7 @@ public class ControllerPedidoEstoque {
 
     private DAOPedidoEstoque DaoPedidoEstoque = new DAOPedidoEstoque();
 
-        public ArrayList<ModelPedidoEstoque> getListaPedidoEstoqueController() {
+        public ModelPedidoEstoque getListaPedidoEstoqueController() {
         return this.DaoPedidoEstoque.retornaListaPedidoEstoqueDAO();
     }
         

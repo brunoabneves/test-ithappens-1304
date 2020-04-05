@@ -43,7 +43,7 @@ public class DAOPedidoEstoque extends ConexaoSQLite {
      * Retorna uma lista completa de pedidos de pedidoEstoque
      * @return listaModelPedidoEstoque
      */
-    public ArrayList<ModelPedidoEstoque> retornaListaPedidoEstoqueDAO(){
+    public ModelPedidoEstoque retornaListaPedidoEstoqueDAO(){
         ArrayList<ModelPedidoEstoque> listaModelPedidoEstoque = new ArrayList<>();
         ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
         ModelEstoque modelEstoque = new ModelEstoque();
@@ -104,7 +104,7 @@ public class DAOPedidoEstoque extends ConexaoSQLite {
         }finally{
             this.desconecta();
         }
-        return listaModelPedidoEstoque;
+        return listaModelPedidoEstoque.get(listaModelPedidoEstoque.size()-1);
     }
     
     /**
