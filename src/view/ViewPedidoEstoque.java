@@ -58,7 +58,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     ArrayList<ModelCliente> listaModelCliente = new ArrayList<>();
     ArrayList<ModelUsuario> listaModelUsuario = new ArrayList<>();
     ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
-    
+
     String tipoPedido;
 
     /**
@@ -238,47 +238,41 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfCodUsuario))
-                .addGap(18, 18, 18)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(tfCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfCodUsuario))
                         .addGap(18, 18, 18)
-                        .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(cbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(tfCodCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(cbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(195, 195, 195)
+                .addGap(194, 194, 194)
                 .addComponent(jButton1)
                 .addGap(56, 56, 56)
                 .addComponent(jbPedidoSaida)
@@ -309,14 +303,14 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                     .addComponent(tfCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                .addGap(62, 62, 62)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbPedidoSaida)
                     .addComponent(jButton1))
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(357, Short.MAX_VALUE))
         );
 
-        jtpItemPedido.addTab("tab1", jPanel1);
+        jtpItemPedido.addTab("Criar Pedido", jPanel1);
 
         jLabel4.setText("Id:");
 
@@ -526,7 +520,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jtpItemPedido.addTab("tab2", jPanel2);
+        jtpItemPedido.addTab("Itens Saída", jPanel2);
 
         jbBuscaPorDescricao1.setText("jButton3");
         jbBuscaPorDescricao1.addActionListener(new java.awt.event.ActionListener() {
@@ -731,7 +725,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jtpItemPedido.addTab("tab3", jPanel3);
+        jtpItemPedido.addTab("Itens Entrada", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -765,7 +759,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void jbRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverActionPerformed
         // TODO add your handling code here:
-        limparCampos();
+        limparCamposSaida();
         modelItemPedido.setStatus("Cancelado");
     }//GEN-LAST:event_jbRemoverActionPerformed
 
@@ -784,8 +778,6 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void jbFinalizarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarVendaActionPerformed
         // TODO add your handling code here:
-        salvarPedidoEstoque();
-
         int idProduto = 0;
         int idEstoque = 0;
         int quantidade = 0;
@@ -806,7 +798,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.setValorUnitario((double) TabelaItemPedido.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedido.getValueAt(i, 4));
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
-            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(1).getIdPedidoEstoque());
+
+            idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+            modelEstoque.setIdEstoque(idEstoque);
+            modelEstoque.setQuantidade(controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString()));
 
             idEstoque = controllerEstoque.getEstoquePorFilialProdutoController(idFilial, idProduto).getIdEstoque();
             modelEstoque.setIdEstoque(idEstoque);
@@ -824,6 +820,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        //limparCamposSaida();
     }//GEN-LAST:event_jbFinalizarVendaActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -915,6 +912,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         tipoPedido = "SAÍDA";
         if (!confirmaPreenchimentoPedidoEstoque()) {;
             jtpItemPedido.setSelectedIndex(1);
+            salvarPedidoEstoque();
         } else {
             JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -935,7 +933,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
     private void jbRemoverEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverEntradaActionPerformed
         // TODO add your handling code here:
-        limparCampos();
+        limparCamposEntrada();
         modelItemPedido.setStatus("Cancelado");
     }//GEN-LAST:event_jbRemoverEntradaActionPerformed
 
@@ -953,7 +951,6 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscaPorCodBarraEntradaActionPerformed
 
     private void jbFinalizarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarCompraActionPerformed
-        salvarPedidoEstoque();
 
         int idProduto = 0;
         int idEstoque = 0;
@@ -973,7 +970,11 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.setValorUnitario((double) TabelaItemPedidoEntrada.getValueAt(i, 3));
             modelItemPedido.setValorTotal((double) TabelaItemPedidoEntrada.getValueAt(i, 4));
             modelItemPedido.setIdFormaPagamento(controllerFormaPagamento.getFormaPagamentoPorTipoController((cbFormaPagamento.getSelectedItem().toString())).getIdFormaPagamento());
-            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(0).getIdPedidoEstoque());
+            modelItemPedido.setIdPedidoEstoque(controllerPedidoEstoque.getListaPedidoEstoqueController().get(1).getIdPedidoEstoque());
+
+            idEstoque = controllerEstoque.getEstoquePorProdutoController(idProduto).getIdEstoque();
+            modelEstoque.setIdEstoque(idEstoque);
+            modelEstoque.setQuantidade(controllerEstoque.getEstoqueController(idEstoque).getQuantidade() - Integer.parseInt(TabelaItemPedido.getValueAt(i, 2).toString()));
 
             listaModelItemPedido.add(modelItemPedido);
             listaModelEstoque.add(modelEstoque);
@@ -986,6 +987,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao inserir produto ao pedido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_jbFinalizarCompraActionPerformed
 
     private void jbCancelarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarEntradaActionPerformed
@@ -1056,8 +1058,9 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         tipoPedido = "ENTRADA";
-        if (!confirmaPreenchimentoPedidoEstoque()) {;
+        if (!confirmaPreenchimentoPedidoEstoque()) {
             jtpItemPedido.setSelectedIndex(2);
+            salvarPedidoEstoque();
         } else {
             JOptionPane.showMessageDialog(this, "Preencha os campos", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -1126,7 +1129,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         });
     }
 
-    private void salvarPedidoEstoque() {
+    private boolean salvarPedidoEstoque() {
         // Salva um novo pedido de estoque no banco
         modelPedidoEstoque.setTipo(tipoPedido);
         modelPedidoEstoque.setIdUsuario(Integer.parseInt(tfCodUsuario.getText()));
@@ -1138,9 +1141,10 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Pedido saída criado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             //this.preencherTabelaPedidoEstoque();
-
+            return true;
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao criar pedido sáida!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
@@ -1219,6 +1223,7 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             });
         }
     }
+
     /**
      * Preenche a tabela de produtos com os produtos do banco
      */
@@ -1254,8 +1259,8 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             modelItemPedido.getValorTotal()
         });
     }
-    
-     private void preencheTabelaItemProdutosEntrada() {
+
+    private void preencheTabelaItemProdutosEntrada() {
         DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedidoEntrada.getModel();
         int count = 0;
         for (int i = 0; i < count; i++) {
@@ -1271,14 +1276,19 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
         });
     }
 
-    private void limparCampos() {
+    private void limparCamposSaida() {
         int linha = this.TabelaItemPedido.getSelectedRow();
-        int linha2 = this.TabelaItemPedidoEntrada.getSelectedRow();
         DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedido.getModel();
-        DefaultTableModel modelo2 = (DefaultTableModel) TabelaItemPedidoEntrada.getModel();
 
         modelo.removeRow(linha);
-        modelo2.removeRow(linha2);
+
+    }
+
+    private void limparCamposEntrada() {
+        int linha = this.TabelaItemPedidoEntrada.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel) TabelaItemPedidoEntrada.getModel();
+
+        modelo.removeRow(linha);
 
     }
 
@@ -1292,8 +1302,8 @@ public class ViewPedidoEstoque extends javax.swing.JFrame {
             cbFormaPagamento.addItem(listaModelFormaPagamento.get(i).getTipoPagamento());
         }
     }
-    
-     /**
+
+    /**
      * Preenche o comboBox com as formas de pagamento do banco
      */
     private void preencherComboBoxFormaPagamentoEntrada() {

@@ -6,6 +6,7 @@ import model.ModelCliente;
 import model.ModelEstoque;
 import model.ModelFilial;
 import model.ModelPedidoEstoque;
+import model.ModelProduto;
 import model.ModelUsuario;
 /**
 *
@@ -104,6 +105,35 @@ public class DAOPedidoEstoque extends ConexaoSQLite {
             this.desconecta();
         }
         return listaModelPedidoEstoque;
+    }
+    
+    /**
+     * Retorna um produto pelo codigo
+     *
+     * @param idProduto
+     * @return modelProduto
+     */
+    public ModelPedidoEstoque retornarPedidoEstoqueDAO(int idPedidoEstoque) {
+        ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
+        try {
+            this.conecta();
+            this.executarSQL("SELECT * FROM pedidoEstoque WHERE idPedidoEstoque = "
+                    + "'" + idPedidoEstoque + "'");
+
+            while (this.getResultSet().next()) {
+                modelPedidoEstoque.setIdPedidoEstoque(this.getResultSet().getInt(1));
+                modelPedidoEstoque.setTipo(this.getResultSet().getString(2));
+                modelPedidoEstoque.setIdUsuario(this.getResultSet().getInt(3));
+                modelPedidoEstoque.setIdCliente(this.getResultSet().getInt(4));
+                modelPedidoEstoque.setIdFilial(this.getResultSet().getInt(5));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return modelPedidoEstoque;
     }
 
 }

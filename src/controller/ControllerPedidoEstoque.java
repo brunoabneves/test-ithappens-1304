@@ -5,6 +5,7 @@ import DAO.DAOPedidoEstoque;
 import java.util.ArrayList;
 import model.ModelEstoque;
 import model.ModelEstoqueProduto;
+import model.ModelProduto;
 
 /**
 *
@@ -25,5 +26,14 @@ public class ControllerPedidoEstoque {
     */
     public int salvarPedidoEstoqueController(ModelPedidoEstoque pModelPedidoEstoque){
         return this.DaoPedidoEstoque.cadastrarPedidoEstoqueDAO(pModelPedidoEstoque);
+    }
+    
+    /**
+     * Retorna um  pdido de estoque pelo código
+     * @param pDescProduto
+     * @return modelProduto
+     */
+    public ModelPedidoEstoque retornarPedidoEstoqueController(int pPedidoEstoque){
+        return this.DaoPedidoEstoque.retornarPedidoEstoqueDAO(pPedidoEstoque);
     }
 }
