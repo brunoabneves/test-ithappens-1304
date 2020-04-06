@@ -1,15 +1,30 @@
-select idProduto from estoque where estoque.quantidade >= 100;
-
-select idProduto from estoque where estoque.idFilial = (select idFilial from filial where filial.idFilial = 60);
-
-select * from pedidoEstoque pE, itemPedido iP where iP.idProduto = 12;
-
-select itemPedido.status, itemPedido.idProduto,itemPedido.valorUnitario, itemPedido.valorTotal, itemPedido.quantidade, 
-formaPagamento.idFormaPagamento, formaPagamento.tipoPagamento from itemPedido, formaPagamento where itemPedido.idFormaPagamento = formaPagamento.idFormaPagamento;
-
-//falta esta consulta
-
-
-select idPedidoEstoque, sum(itemPedido.valorTotal) from pedidoEstoque, itemPedido 
-where itemPedido.idPedidoEstoque = pedidoEstoque.idPedidoEstoque group by pedidoEstoque.idPedidoEstoque having sum(itemPedido.valorTotal) > 10;
+1.Escrever uma consulta que retorne todos os produtos com quantidade maior ou igual
+a 100
+  select idProduto from estoque where estoque.quantidade >= 100;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+2.Escrever uma consulta que traga todos os produtos que têm estoque para a filial de
+código 60
+  select idProduto from estoque where estoque.idFilial = (select idFilial from filial where filial.idFilial = 60);
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.Escrever consulta que liste todos os campos para o domínio PedidoEstoque e
+ItensPedido filtrando apenas o produto de código 7993
+  select * from pedidoEstoque pE, itemPedido iP where iP.idProduto = 7993;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Escrever uma consulta que liste os pedidos com suas respectivas formas de
+pagamento.
+  select itemPedido.status, itemPedido.idProduto,itemPedido.valorUnitario, itemPedido.valorTotal, itemPedido.quantidade, 
+  formaPagamento.idFormaPagamento, formaPagamento.tipoPagamento from itemPedido, formaPagamento where itemPedido.idFormaPagamento = formaPagamento.idFormaPagamento;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.Escrever um consulta para sumarizar e bater os valores da capa do pedido com os
+valores dos ítens de pedido.
+  SELECT pedidoEstoque.idPedidoEstoque, valorTotal AS pedidoCustoTotal, SUM( valorUnitario * quantidade ) AS somaTotal 
+  FROM pedidoEstoque INNER JOIN itemPedido
+  ON pedidoEstoque.idPedidoEstoque = itemPedido.idPedidoEstoque 
+  group by pedidoEstoque.idPedidoEstoque, pedidoCustoTotal;
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6.Escrever uma consulta para sumarizar o total dos itens por pedido e que filtre
+apenas os pedidos no qual a soma total da quantidade de ítens de pedido seja maior
+que 10
+  select idPedidoEstoque, sum(itemPedido.valorTotal) from pedidoEstoque, itemPedido 
+  where itemPedido.idPedidoEstoque = pedidoEstoque.idPedidoEstoque group by pedidoEstoque.idPedidoEstoque having sum(itemPedido.valorTotal) > 10;
 
