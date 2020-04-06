@@ -1,0 +1,15 @@
+select idProduto from estoque where estoque.quantidade >= 100;
+
+select idProduto from estoque where estoque.idFilial = (select idFilial from filial where filial.idFilial = 60);
+
+select * from pedidoEstoque pE, itemPedido iP where iP.idProduto = 12;
+
+select itemPedido.status, itemPedido.idProduto,itemPedido.valorUnitario, itemPedido.valorTotal, itemPedido.quantidade, 
+formaPagamento.idFormaPagamento, formaPagamento.tipoPagamento from itemPedido, formaPagamento where itemPedido.idFormaPagamento = formaPagamento.idFormaPagamento;
+
+//falta esta consulta
+
+
+select idPedidoEstoque, sum(itemPedido.valorTotal) from pedidoEstoque, itemPedido 
+where itemPedido.idPedidoEstoque = pedidoEstoque.idPedidoEstoque group by pedidoEstoque.idPedidoEstoque having sum(itemPedido.valorTotal) > 10;
+

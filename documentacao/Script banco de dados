@@ -1,0 +1,70 @@
+CREATE TABLE produto (
+    idProduto INTEGER        PRIMARY KEY AUTOINCREMENT
+                             NOT NULL,
+    codBarras VARCHAR (13)   UNIQUE,
+    descricao VARCHAR (255)  NOT NULL,
+    valor     DOUBLE (18, 2) NOT NULL
+);
+
+
+CREATE TABLE usuario (
+    idUsuario INTEGER      PRIMARY KEY
+                           NOT NULL,
+    nome      VARCHAR (50) NOT NULL
+);
+
+CREATE TABLE filial (
+    idFilial INTEGER      PRIMARY KEY AUTOINCREMENT
+                          NOT NULL,
+    nome     VARCHAR (50) NOT NULL
+);
+
+CREATE TABLE cliente (
+    idCliente INTEGER      PRIMARY KEY
+                           NOT NULL,
+    nome      VARCHAR (45) NOT NULL
+);
+
+
+CREATE TABLE estoque (
+    idEstoque  INTEGER PRIMARY KEY AUTOINCREMENT
+                       NOT NULL,
+    quantidade INT     NOT NULL,
+    idProduto  INTEGER REFERENCES produto (idProduto) 
+                       NOT NULL,
+    idFilial   INTEGER REFERENCES filial (idFilial) 
+                       NOT NULL
+);
+
+CREATE TABLE pedidoEstoque (
+    idPedidoEstoque INTEGER       PRIMARY KEY AUTOINCREMENT
+                                  NOT NULL,
+    tipo            VARCHAR (50)  NOT NULL,
+    idUsuario       INTEGER       REFERENCES usuario (idUsuario) 
+                                  NOT NULL,
+    idCliente       INTEGER       REFERENCES cliente (idCliente) 
+                                  NOT NULL,
+    idFilial        INTEGER       REFERENCES filial (idFilial) 
+                                  NOT NULL,
+    observacao      VARCHAR (100) NOT NULL
+);
+
+CREATE TABLE formaPagamento (
+    idFormaPagamento INTEGER      PRIMARY KEY
+                                  NOT NULL,
+    tipoPagamento    VARCHAR (45) NOT NULL
+);
+
+
+CREATE TABLE itemPedido (
+    status           VARCHAR (50)    NOT NULL,
+    quantidade       INT             NOT NULL,
+    valorUnitario    DECIMAL (18, 2) NOT NULL,
+    valorTotal       DECIMAL (18, 2) NOT NULL,
+    idProduto        INTEGER         REFERENCES produto (idProduto) 
+                                     NOT NULL,
+    idFormaPagamento INTEGER         REFERENCES formaPagamento (idFormaPagamento) 
+                                     NOT NULL,
+    idPedidoEstoque  INTEGER         REFERENCES pedidoEstoque (idPedidoEstoque) 
+                                     NOT NULL
+);
