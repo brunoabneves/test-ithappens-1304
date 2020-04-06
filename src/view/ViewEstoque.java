@@ -298,9 +298,8 @@ public class ViewEstoque extends javax.swing.JFrame {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // Salva um estoque no banco
-        if (Integer.parseInt(tfCodFilial.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdFilial()
-                && Integer.parseInt(tfCodProduto.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdProduto()) {
-            JOptionPane.showMessageDialog(this, "Estoque já foi cadastrado para este produto, clique em 'Alterar', para realizar mudanças", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (checaEstoqueCadastrado()) {
+            JOptionPane.showMessageDialog(this, "Estoque já foi cadastrado para esta filial, clique em 'Alterar', para realizar mudanças", "Erro", JOptionPane.ERROR_MESSAGE);
         } else {
 
             if (alterarSalvar.equals("salvar")) {
@@ -336,17 +335,7 @@ public class ViewEstoque extends javax.swing.JFrame {
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um estoque do banco
-        int linha = TabelaEstoque.getSelectedRow();
-        int codigo = (int) TabelaEstoque.getValueAt(linha, 0);
-        if (controllerEstoque.excluirEstoqueController(codigo)) {
-
-            JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencherTabelaEstoque();
-            habilitaDesabilitaCampos(false);
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao excluir estoque", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        excluirEstoque();
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
@@ -439,6 +428,20 @@ public class ViewEstoque extends javax.swing.JFrame {
         }
     }
 
+    public void excluirEstoque() {
+        int linha = TabelaEstoque.getSelectedRow();
+        int codigo = (int) TabelaEstoque.getValueAt(linha, 0);
+        if (controllerEstoque.excluirEstoqueController(codigo)) {
+
+            JOptionPane.showMessageDialog(this, "Estoque excluído com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencherTabelaEstoque();
+            habilitaDesabilitaCampos(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir estoque", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * Preenche o comboBox com todas as filiais do banco
      */
@@ -499,6 +502,14 @@ public class ViewEstoque extends javax.swing.JFrame {
         tfQuantidade.setEnabled(condicao);
         cbFilial.setEnabled(condicao);
         cbProduto.setEnabled(condicao);
+    }
+
+    private boolean checaEstoqueCadastrado() {
+        if (Integer.parseInt(tfCodFilial.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdFilial()
+                && Integer.parseInt(tfCodProduto.getText()) == controllerEstoque.getEstoquePorFilialProdutoController(Integer.parseInt(tfCodFilial.getText()), Integer.parseInt(tfCodProduto.getText())).getIdProduto()) {
+            return true;
+        }
+        return false;
     }
 
     /**

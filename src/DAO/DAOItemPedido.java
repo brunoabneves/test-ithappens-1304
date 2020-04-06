@@ -3,6 +3,7 @@ package DAO;
 import conexoes.ConexaoSQLite;
 import java.util.ArrayList;
 import model.ModelItemPedido;
+import model.ModelPedidoEstoque;
 /**
 *
 * @author bruno
@@ -64,6 +65,23 @@ public class DAOItemPedido extends ConexaoSQLite {
         }
         return modelItemPedido;
     }
+    
+     public double retornaTotalDAO(String tipo) {
+        double total = 0;
+        try {
+            this.conecta();
+            this.executarSQL("select sum(valorTotal) from pedidoEstoque, itemPedido where "
+                    + "pedidoEstoque.idPedidoEstoque = itemPedido.idPedidoEstoque and pedidoEstoque.tipo = '"+tipo+"' ");
+
+            total = this.getResultSet().getDouble(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.desconecta();
+        }
+        return total;
+    }
 
     /**
      * Retorna uma lista completa de itens de Pedidos
@@ -86,6 +104,40 @@ public class DAOItemPedido extends ConexaoSQLite {
                 modelItemPedido.setValorTotal(this.getResultSet().getInt(4));
                 modelItemPedido.setIdProduto(this.getResultSet().getInt(5));
                 modelItemPedido.setIdFormaPagamento(this.getResultSet().getInt(6));
+                
+                listaModelItemPedido.add(modelItemPedido);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            this.desconecta();
+        }
+        return listaModelItemPedido;
+    }
+    
+    public ArrayList<ModelItemPedido> retornaListaItemPedidosPorTipoDAO(String tipo){
+        ArrayList<ModelItemPedido> listaModelItemPedido = new ArrayList<>();
+        ModelItemPedido modelItemPedido = new ModelItemPedido();
+        ModelPedidoEstoque modelPedidoEstoque = new ModelPedidoEstoque();
+        
+        try {
+            this.conecta();
+            this.executarSQL("select pedidoEstoque.idPedidoEstoque, itemPedido.idProduto, itemPedido.valorUnitario, "
+                    + "itemPedido.idFormaPagamento, itemPedido.valorTotal "
+                    + "from pedidoEstoque, itemPedido "
+                    + "where pedidoEstoque.idPedidoEstoque = itemPedido.idPedidoEstoque "
+                    + "and pedidoEstoque.tipo = '"+tipo+"' ");
+            
+            while (this.getResultSet().next()) {
+                modelItemPedido = new ModelItemPedido();
+                modelPedidoEstoque = new ModelPedidoEstoque();
+                        
+                modelPedidoEstoque.setIdPedidoEstoque(this.getResultSet().getInt(1));
+                modelItemPedido.setIdProduto(this.getResultSet().getInt(2));
+                modelItemPedido.setValorUnitario(this.getResultSet().getDouble(3));
+                modelItemPedido.setIdFormaPagamento(this.getResultSet().getInt(4));
+                modelItemPedido.setValorTotal(this.getResultSet().getDouble(5));
                 
                 listaModelItemPedido.add(modelItemPedido);
             }

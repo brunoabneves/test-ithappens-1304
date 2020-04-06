@@ -17,6 +17,7 @@ import util.Formatador;
  * @author bruno
  */
 public class ViewUsuario extends javax.swing.JFrame {
+
     ArrayList<ModelUsuario> listaModelUsuario = new ArrayList<>();
     ControllerUsuario controllerUsuario = new ControllerUsuario();
     ModelUsuario modelUsuario = new ModelUsuario();
@@ -199,27 +200,16 @@ public class ViewUsuario extends javax.swing.JFrame {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
 
-        if(alterarSalvar.equals("salvar")){
+        if (alterarSalvar.equals("salvar")) {
             this.salvarUsuario();
-        }else if(alterarSalvar.equals("alterar")){
+        } else if (alterarSalvar.equals("alterar")) {
             this.atualizarUsuario();
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um usuario do banco
-        int linha = TabelaUsuario.getSelectedRow();
-        int codigoUsuario = (int) TabelaUsuario.getValueAt(linha, 0);
-
-        if(controllerUsuario.excluirUsuarioController(codigoUsuario)){
-
-            JOptionPane.showMessageDialog(this, "Usuario excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencheTabelaUsuario();
-            habilitaDesabilitaCampos(false);
-
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir usuario!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
+        excluirUsuario();
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
@@ -228,7 +218,7 @@ public class ViewUsuario extends javax.swing.JFrame {
         habilitaDesabilitaCampos(true);
         int linha = this.TabelaUsuario.getSelectedRow();
 
-        try{
+        try {
             int idUsuario = (int) this.TabelaUsuario.getValueAt(linha, 0);
             //recupera dados do banco
             modelUsuario = controllerUsuario.getUsuarioController(idUsuario);
@@ -236,7 +226,7 @@ public class ViewUsuario extends javax.swing.JFrame {
             this.tfCodigo.setText(String.valueOf(modelUsuario.getIdUsuario()));
             this.tfNome.setText(modelUsuario.getNome());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbAlterarActionPerformed
@@ -275,68 +265,84 @@ public class ViewUsuario extends javax.swing.JFrame {
             }
         });
     }
-    
-    private void salvarUsuario(){
+
+    private void salvarUsuario() {
         // Salva um novo usuario no banco
         modelUsuario.setNome(this.tfNome.getText());
-        
-        if(controllerUsuario.salvarUsuarioController(modelUsuario) > 0){
-            
-            JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+
+        if (controllerUsuario.salvarUsuarioController(modelUsuario) > 0) {
+
+            JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaUsuario();
             limparCampos();
             habilitaDesabilitaCampos(false);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar o usuario!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void atualizarUsuario(){
+
+    private void atualizarUsuario() {
         // Atualiza um usuario no banco
         modelUsuario.setNome(this.tfNome.getText());
-        
-        if(controllerUsuario.atualizarUsuarioController(modelUsuario)){
-            
-            JOptionPane.showMessageDialog(this, "Usuario atualizado com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+
+        if (controllerUsuario.atualizarUsuarioController(modelUsuario)) {
+
+            JOptionPane.showMessageDialog(this, "Usuario atualizado com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaUsuario();
             limparCampos();
             habilitaDesabilitaCampos(false);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar o usuario!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * Habilita e desabilita campos do formulário
-     * @param condicao 
+     *
+     * @param condicao
      */
-    private void habilitaDesabilitaCampos(boolean condicao){
+    private void habilitaDesabilitaCampos(boolean condicao) {
         tfCodigo.setEnabled(condicao);
         tfNome.setEnabled(condicao);
     }
-    
+
     /**
      * Preenche a tabela de usuarios com os usuarios do banco
      */
-    private void preencheTabelaUsuario(){
+    private void preencheTabelaUsuario() {
         listaModelUsuario = controllerUsuario.getListaUsuarioController();
         DefaultTableModel modelo = (DefaultTableModel) TabelaUsuario.getModel();
         modelo.setNumRows(0);
-        
+
         //inserir usuarios na tabela
         int count = listaModelUsuario.size();
         for (int i = 0; i < count; i++) {
             modelo.addRow(new Object[]{
-            listaModelUsuario.get(i).getIdUsuario(),
-            listaModelUsuario.get(i).getNome()
+                listaModelUsuario.get(i).getIdUsuario(),
+                listaModelUsuario.get(i).getNome()
             });
         }
-                
+
     }
-    
-    private void limparCampos(){
+
+    private void excluirUsuario() {
+        int linha = TabelaUsuario.getSelectedRow();
+        int codigoUsuario = (int) TabelaUsuario.getValueAt(linha, 0);
+
+        if (controllerUsuario.excluirUsuarioController(codigoUsuario)) {
+
+            JOptionPane.showMessageDialog(this, "Usuario excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaUsuario();
+            habilitaDesabilitaCampos(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir usuario!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void limparCampos() {
         tfNome.setText("");
     }
 

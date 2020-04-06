@@ -31,13 +31,24 @@ public class ControllerItemPedido {
     }
 
     /**
-    * recupera uma lista deItemPedido
-    * @param pStatus
+    * recupera uma lista de ItemPedido
     * @return ArrayList
     */
     public ArrayList<ModelItemPedido> getListaItemPedidoController(){
         return this.daoItemPedido.retornaListaItemPedidosDAO();
     }
+    
+    /**
+    * recupera uma lista de ItemPedido
+    * @return ArrayList
+    */
+    public ArrayList<ModelItemPedido> retornaListaItemPedidosPorTipoDAO(String tipo){
+        return this.daoItemPedido.retornaListaItemPedidosPorTipoDAO(tipo);
+    }
+    
+     public double retornaTotalDAO(String tipo){
+         return this.daoItemPedido.retornaTotalDAO(tipo);
+     }
 
     /**
     * atualiza ItemPedido

@@ -17,7 +17,7 @@ import util.Formatador;
  * @author bruno
  */
 public class ViewFilial extends javax.swing.JFrame {
-    
+
     ArrayList<ModelFilial> listaModelFilial = new ArrayList<>();
     ControllerFilial controllerFilial = new ControllerFilial();
     ModelFilial modelFilial = new ModelFilial();
@@ -202,27 +202,16 @@ public class ViewFilial extends javax.swing.JFrame {
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
 
-        if(alterarSalvar.equals("salvar")){
+        if (alterarSalvar.equals("salvar")) {
             this.salvarFilial();
-        }else if(alterarSalvar.equals("alterar")){
+        } else if (alterarSalvar.equals("alterar")) {
             this.atualizarFilial();
         }
     }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         // Exclui um cliente do banco
-        int linha = TabelaFilial.getSelectedRow();
-        int codigoFilial = (int) TabelaFilial.getValueAt(linha, 0);
-
-        if(controllerFilial.excluirFilialController(codigoFilial)){
-
-            JOptionPane.showMessageDialog(this, "Filial excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-            this.preencheTabelaFilial();
-            habilitaDesabilitaCampos(false);
-
-        }else{
-            JOptionPane.showMessageDialog(this, "Erro ao excluir cliente!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
+        excluirFilial();
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
@@ -231,7 +220,7 @@ public class ViewFilial extends javax.swing.JFrame {
         habilitaDesabilitaCampos(true);
         int linha = this.TabelaFilial.getSelectedRow();
 
-        try{
+        try {
             int idFilial = (int) this.TabelaFilial.getValueAt(linha, 0);
             //recupera dados do banco
             modelFilial = controllerFilial.getFilialController(idFilial);
@@ -239,7 +228,7 @@ public class ViewFilial extends javax.swing.JFrame {
             this.tfCodigo.setText(String.valueOf(modelFilial.getIdFilial()));
             this.tfNome.setText(modelFilial.getNome());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Código inválido ou nenhum registro selecionado!", "Aviso", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jbAlterarActionPerformed
@@ -278,68 +267,83 @@ public class ViewFilial extends javax.swing.JFrame {
             }
         });
     }
-    
-    private void salvarFilial(){
+
+    private void salvarFilial() {
         // Salva uma nova filial no banco
         modelFilial.setNome(this.tfNome.getText());
-        
-        if(controllerFilial.salvarFilialController(modelFilial) > 0){
-            
-            JOptionPane.showMessageDialog(this, "Filial cadastrada com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+
+        if (controllerFilial.salvarFilialController(modelFilial) > 0) {
+
+            JOptionPane.showMessageDialog(this, "Filial cadastrada com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaFilial();
             limparCampos();
             habilitaDesabilitaCampos(false);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao cadastrar o filial!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void atualizarFilial(){
+
+    private void atualizarFilial() {
         // Atualiza uma filial no banco
         modelFilial.setNome(this.tfNome.getText());
-        
-        if(controllerFilial.atualizarFilialController(modelFilial)){
-            
-            JOptionPane.showMessageDialog(this, "Filial atualizada com sucesso!","ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+
+        if (controllerFilial.atualizarFilialController(modelFilial)) {
+
+            JOptionPane.showMessageDialog(this, "Filial atualizada com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
             this.preencheTabelaFilial();
             limparCampos();
             habilitaDesabilitaCampos(false);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar o filial!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * Habilita e desabilita campos do formulário
-     * @param condicao 
+     *
+     * @param condicao
      */
-    private void habilitaDesabilitaCampos(boolean condicao){
+    private void habilitaDesabilitaCampos(boolean condicao) {
         tfCodigo.setEnabled(condicao);
         tfNome.setEnabled(condicao);
     }
-    
+
     /**
      * Preenche a tabela de filials com os filials do banco
      */
-    private void preencheTabelaFilial(){
+    private void preencheTabelaFilial() {
         listaModelFilial = controllerFilial.getListaFilialController();
         DefaultTableModel modelo = (DefaultTableModel) TabelaFilial.getModel();
         modelo.setNumRows(0);
-        
+
         //inserir filials na tabela
         int count = listaModelFilial.size();
         for (int i = 0; i < count; i++) {
             modelo.addRow(new Object[]{
-            listaModelFilial.get(i).getIdFilial(),
-            listaModelFilial.get(i).getNome(), 
-            });
+                listaModelFilial.get(i).getIdFilial(),
+                listaModelFilial.get(i).getNome(),});
         }
-                
+
     }
-    
-    private void limparCampos(){
+
+    private void excluirFilial() {
+        int linha = TabelaFilial.getSelectedRow();
+        int codigoFilial = (int) TabelaFilial.getValueAt(linha, 0);
+
+        if (controllerFilial.excluirFilialController(codigoFilial)) {
+
+            JOptionPane.showMessageDialog(this, "Filial excluido com sucesso!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+            this.preencheTabelaFilial();
+            habilitaDesabilitaCampos(false);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir cliente!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void limparCampos() {
         tfNome.setText("");
     }
 
